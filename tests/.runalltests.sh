@@ -1,5 +1,5 @@
 #!/bin/sh -e
-
+#This is just test the github edit function()delete it. 
 # usage: $0 [optional arrow args]
 # run all arrow tests from cwd and just display the results
 
