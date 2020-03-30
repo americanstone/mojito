@@ -1,20 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Stateful', function(Y, NAME) {
+YUI.add('stateful', function(Y, NAME) {
 
-    Y.mojito.controller = {
+    var time = new Date().getTime();
 
-        init: function(config) {
-            this.config = config;
-            this.time = new Date().getTime();
-        },
+    Y.namespace('mojito.controllers')[NAME] = {
 
         index: function(ac) {
-            ac.done({id: this.config.id});
+            ac.done({id: ac.config.get('id')});
         },
 
         pitch: function(ac) {
@@ -23,13 +20,13 @@ YUI.add('Stateful', function(Y, NAME) {
             ac.done();
         },
 
-        'catch': function(ac) {
+        catch: function(ac) {
             var self = this;
             this.logit('catch');
-            ac.models.Stateful.getData(function(err, data) {
+            ac.models.get('model').getData(function(err, data) {
                 ac.done({
                     ball: self.ball,
-                    time: self.time,
+                    time: time,
                     model: data.modelId
                 }, 'json');
             });
@@ -37,9 +34,13 @@ YUI.add('Stateful', function(Y, NAME) {
 
 
         logit: function(msg) {
-            Y.log(msg + this.time, 'warn', NAME);
+            Y.log(msg + time, 'warn', NAME);
         }
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: [
+    'mojito-models-addon',
+    'mojito-config-addon',
+    'mojito-params-addon'
+]});

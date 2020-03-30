@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('i18nModel', function(Y) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('i18n-model', function (Y, NAME) {
 
 /**
- * The i18nModel module.
+ * The i18n-model module.
  *
- * @module i18nModel
+ * @module i18n-model
  */
 
     /**
@@ -18,9 +20,9 @@ YUI.add('i18nModel', function(Y) {
      * @class Model
      * @constructor
      */
-    Y.mojito.models.i18n = {
+     Y.namespace('mojito.models')[NAME] = {
 
-        init: function(config) {
+        init: function (config) {
             this.config = config;
         },
 
@@ -30,10 +32,10 @@ YUI.add('i18nModel', function(Y) {
          * @param callback {Function} The callback function to call when the
          *        data has been retrieved.
          */
-        getData: function(callback) {
-            callback({some:'data'});
+        getData: function (callback) {
+            callback({some: 'data'});
         }
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito']});

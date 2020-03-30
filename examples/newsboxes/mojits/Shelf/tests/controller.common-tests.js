@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -9,9 +9,9 @@
 /*global YUI,YUITest*/
 
 
-YUI.add('ShelfController-tests', function(Y) {
+YUI.add('shelf-tests', function(Y, NAME) {
 
-    var suite = new YUITest.TestSuite('ShelfController-tests'),
+    var suite = new YUITest.TestSuite(NAME),
         controller = null,
         A = YUITest.Assert;
 
@@ -93,7 +93,7 @@ YUI.add('ShelfController-tests', function(Y) {
 
         setUp: function() {
             A.isNull(controller);
-            controller = Y.mojito.controller;
+            controller = Y.mojito.controllers["shelf"];
             A.isNotNull(controller);
         },
 
@@ -109,7 +109,7 @@ YUI.add('ShelfController-tests', function(Y) {
             var ac = getAc();
             ac.composite = {
                 done: function(vudata) {
-                    A.areSame(11, vudata.template.tiles.length);
+                    A.areSame(11, vudata.tiles.length);
                 }
             };
 
@@ -120,9 +120,9 @@ YUI.add('ShelfController-tests', function(Y) {
             var ac = getAc();
             ac.composite = {
                 done: function(vudata) {
-                    A.areSame('BBC World News', vudata.template.tiles[0].name);
+                    A.areSame('BBC World News', vudata.tiles[0].name);
                     A.areSame('http://feeds.bbci.co.uk/news/world/rss.xml',
-                        vudata.template.tiles[0].url);
+                        vudata.tiles[0].url);
                 }
             };
             controller.index(ac);
@@ -132,7 +132,7 @@ YUI.add('ShelfController-tests', function(Y) {
             var ac = getAc();
             ac.composite = {
                 done: function(vudata) {
-                    A.areSame('Yahoo! OMG', vudata.template.tiles[7].name);
+                    A.areSame('Yahoo! OMG', vudata.tiles[7].name);
                 }
             };
             controller.index(ac);
@@ -144,6 +144,6 @@ YUI.add('ShelfController-tests', function(Y) {
 
 }, '0.0.1', {requires: [
     'mojito-test',
-    'ShelfController',
+    'shelf',
     'oop'
 ]});

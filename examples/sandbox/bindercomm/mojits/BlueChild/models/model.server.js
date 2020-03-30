@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('BlueChildModel', function(Y) {
+YUI.add('bluechild-model', function(Y, NAME) {
 
 /**
- * The BlueChildModel module.
+ * The bluechild-model module.
  *
- * @module BlueChildModel
+ * @module bluechild-model
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('BlueChildModel', function(Y) {
      * @class Model
      * @constructor
      */
-    Y.mojito.models.BlueChild = {
+    Y.mojito.models["bluechild-model"] = {
 
         init: function(config) {
             this.config = config;
@@ -36,4 +36,4 @@ YUI.add('BlueChildModel', function(Y) {
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito']});

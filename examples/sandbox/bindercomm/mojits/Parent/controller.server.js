@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Parent', function(Y) {
+YUI.add('parent', function(Y, NAME) {
 
 /**
- * The Parent module.
+ * The parent module.
  *
- * @module Parent
+ * @module parent
  */
 
     /**
@@ -18,11 +18,7 @@ YUI.add('Parent', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
-
-        init: function(config) {
-            this.config = config;
-        },
+    Y.namespace('mojito.controllers')[NAME] = {
 
         'index': function(ac) {
             ac.done();
@@ -78,4 +74,4 @@ YUI.add('Parent', function(Y) {
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito-composite-addon', 'mojito-assets-addon']});

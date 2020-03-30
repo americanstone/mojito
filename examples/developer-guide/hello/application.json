@@ -1,10 +1,13 @@
 [
   {
     "settings": [ "master" ],
-    "appPort": 8666,
+    "staticHandling": {
+        "cache": false,
+        "forceUpdate": true
+    },
     "specs": {
       "hello": {
-        "type": "HelloMojit"
+        "type": "Hello"
       }
     }
   }

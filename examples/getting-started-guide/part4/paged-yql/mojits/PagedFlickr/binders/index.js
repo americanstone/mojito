@@ -1,42 +1,36 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('PagedFlickrBinderIndex', function(Y, NAME) {
+YUI.add('pagedflickr-binder-index', function (Y, NAME) {
 
+    "use strict";
     function getPage(href) {
-        return href.split('/').pop().split('=').pop()
+        return href.split('/').pop().split('=').pop();
     }
-
     Y.namespace('mojito.binders')[NAME] = {
 
-        init: function(mojitProxy) {
+        init: function (mojitProxy) {
             this.mojitProxy = mojitProxy;
         },
-
-        bind: function(node) {
-            var self = this;
+        bind: function (node) {
             this.node = node;
-            var paginator = function(evt) {
+            var self = this,
+                paginator = function (evt) {
+                    var tgt = evt.target,
+                        page = getPage(tgt.get('href'));
 
-                var tgt = evt.target;
-                var page = getPage(tgt.get('href'));
-
-                evt.halt();
-
-                self.mojitProxy.refreshView({
-                    rpc: true,
-                    params: {
-                        route: {page: page}
-                    }
-                });
-                
-            };
+                    evt.halt();
+                    self.mojitProxy.refreshView({
+                        rpc: true,
+                        params: {
+                            route: {page: page}
+                        }
+                    });
+                };
             this.node.all('#paginate a').on('click', paginator, this);
         }
-        
     };
-
 }, '0.0.1', {requires: []});

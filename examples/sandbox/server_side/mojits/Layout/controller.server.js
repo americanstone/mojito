@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Layout', function(Y) {
+YUI.add('layout', function(Y, NAME) {
 
 /**
- * The Layout module.
+ * The layout module.
  *
- * @module Layout
+ * @module layout
  */
 
     /**
@@ -18,11 +18,7 @@ YUI.add('Layout', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
-
-        init: function(config) {
-            this.config = config;
-        },
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.
@@ -33,12 +29,6 @@ YUI.add('Layout', function(Y) {
         index: function(ac) {
             console.log('parent req: ' + !!ac.http.getRequest());
             ac.composite.done();
-        },
-
-        redirect: function(ac) {
-            ac.http.redirect('/layout2/index');
         }
-
     };
-
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito-composite-addon', 'mojito-http-addon']});

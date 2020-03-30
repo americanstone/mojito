@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('StatefulModel', function(Y) {
+YUI.add('stateful-model', function(Y) {
 
 /**
- * The StatefulModel module.
+ * The stateful-model module.
  *
- * @module StatefulModel
+ * @module stateful-model
  */
 
     /**

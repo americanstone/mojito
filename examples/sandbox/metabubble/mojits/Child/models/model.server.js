@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ChildModel', function(Y) {
+YUI.add('child-model', function(Y, NAME) {
 
 /**
- * The ChildModel module.
+ * The child-model module.
  *
- * @module ChildModel
+ * @module child-model
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('ChildModel', function(Y) {
      * @class Model
      * @constructor
      */
-    Y.mojito.models.Child = {
+    Y.namespace("mojito.models")["child-model"] = {
 
         init: function(config) {
             this.config = config;
@@ -36,4 +36,4 @@ YUI.add('ChildModel', function(Y) {
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito']});

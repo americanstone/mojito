@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ServerCookie', function(Y) {
+YUI.add('servercookie', function(Y, NAME) {
     
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
         
         pitch: function(ac) {
             var opts = {
@@ -34,7 +34,7 @@ YUI.add('ServerCookie', function(Y) {
             ac.done();
         },
 
-        'catch': function(ac) {
+        catch: function(ac) {
             var cookies = ac.cookie.get(),
                 cookieArray = [];
             Y.Object.each(cookies, function(v, k) {

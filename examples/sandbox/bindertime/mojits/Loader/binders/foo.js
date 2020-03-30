@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('LoaderBinderFoo', function(Y, NAME) {
+YUI.add('loader-binder-foo', function(Y, NAME) {
 
 /**
- * The LoaderBinder module.
+ * The loader-binder-foo module.
  *
- * @module LoaderBinder
+ * @module loader-binder-foo
  */
 
     Y.namespace('mojito.binders')[NAME] = {

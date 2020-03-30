@@ -1,10 +1,13 @@
 [
   {
     "settings": [ "master" ],
-    "appPort": 8666,
+    "staticHandling": {
+        "cache": false,
+        "forceUpdate": true
+    },
     "specs": {
       "mapped_mojit": {
-        "type": "RoutingMojit"
+        "type": "Routing"
       }
     }
   }

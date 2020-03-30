@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('framedBinderIndex', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('framed-binder-index', function (Y, NAME) {
 
 /**
- * The framedBinderIndex module.
+ * The YUI.add('framed-binder-index module.
  *
- * @module framedBinderIndex
+ * @module YUI.add('framed-binder-index
  */
 
     /**
@@ -27,7 +29,7 @@ YUI.add('framedBinderIndex', function(Y, NAME) {
          * Binder initialization method, invoked after all binders on the page
          * have been constructed.
          */
-        init: function(mojitProxy) {
+        init: function (mojitProxy) {
             this.mojitProxy = mojitProxy;
         },
 
@@ -37,7 +39,7 @@ YUI.add('framedBinderIndex', function(Y, NAME) {
          *
          * @param node {Node} The DOM node to which this mojit is attached.
          */
-        bind: function(node) {
+        bind: function (node) {
             this.node = node;
         }
 

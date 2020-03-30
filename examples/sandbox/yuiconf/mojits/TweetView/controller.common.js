@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('TweetView', function(Y) {
+YUI.add('tweetview', function(Y, NAME) {
 
 /**
- * The TweetView module.
+ * The tweetview module.
  *
- * @module TweetView
+ * @module tweetview
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('TweetView', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.
@@ -33,7 +33,7 @@ YUI.add('TweetView', function(Y) {
                 ac.done({screenName: 'Nobody'});
                 return;
             }
-            ac.models.twitter.getTweetsFor(screenName, function(err, tweets) {
+            ac.models.get('twitter').getTweetsFor(screenName, function(err, tweets) {
                 ac.done({
                     screenName: screenName,
                     tweets: tweets
@@ -43,4 +43,9 @@ YUI.add('TweetView', function(Y) {
 
     };
 
-}, '0.0.1', {requires: ['mojito']});
+}, '0.0.1', {requires: [
+    'mojito',
+    'mojito-models-addon',
+    'mojito-assets-addon',
+    'mojito-params-addon'
+]});

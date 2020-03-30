@@ -1,35 +1,43 @@
-
-
-==================================
-Allowing Inter-Mojit Communication
-==================================
+=========================
+Inter-Mojit Communication
+=========================
 
 **Time Estimate:** 15 minutes
 
 **Difficulty Level:** Intermediate
 
-Summary
-#######
+.. _code_exs_intermojit-summary:
 
-This example shows how to configure mojits to communicate with each other through event binding.
+Summary
+=======
+
+This example shows how to configure mojits to communicate with each other 
+through event binding.
 
 The following topics will be covered:
 
 - structuring your mojits for intercommunication
 - implementing binders for each mojit to listen to and trigger events
-- using the `Composite addon <../../api/classes/Composite.common.html>`_ to execute code in child mojits
+- using the `Composite addon <../../api/classes/Composite.common.html>`_ 
+  to execute code in child mojits
+
+.. _code_exs_intermojit-notes:
 
 Implementation Notes
-####################
+====================
 
 .. _impl_notes-app_config:
 
 Application Configuration
-=========================
+-------------------------
 
-The ``application.json`` for this example defines the hierarchy and relationship between the mojits of this application and configures the application to run on the client. 
-In the ``application.json`` below, the ``HTMLFrameMojit`` is the parent of the ``MasterMojit``, which, in turn, is the parent of the ``SenderMojit`` and ``ReceiverMojit``.  
-The ``"deploy"`` property of the ``"frame"`` object is assigned the value ``"true"`` to configure Mojito to send code to the client for execution.
+The ``application.json`` for this example defines the hierarchy and 
+relationship between the mojits of this application and configures the 
+application to run on the client. In the ``application.json`` below, 
+the ``HTMLFrameMojit`` is the parent of the ``Master`` mojit, 
+which, in turn, is the parent of the mojits ``Sender`` and ``Receiver``. 
+The ``"deploy"`` property of the ``"frame"`` object is assigned the value 
+``"true"`` to configure Mojito to send code to the client for execution.
 
 .. code-block:: javascript
 
@@ -42,14 +50,14 @@ The ``"deploy"`` property of the ``"frame"`` object is assigned the value ``"tru
            "config": {
              "deploy": true,
              "child": {
-               "type": "MasterMojit",
+               "type": "Master",
                "config":{
                  "children": {
                    "sender": {
-                     "type": "SenderMojit"
+                     "type": "Sender"
                    },
                    "receiver": {
-                     "type": "ReceiverMojit"
+                     "type": "Receiver"
                    }
                  }
                }
@@ -57,9 +65,9 @@ The ``"deploy"`` property of the ``"frame"`` object is assigned the value ``"tru
              "assets": {
                "top": {
                  "css":[
-                   "/static/MasterMojit/assets/css/style.css",
-                   "/static/SenderMojit/assets/css/style.css",
-                   "/static/ReceiverMojit/assets/css/style.css"
+                   "/static/Master/assets/css/style.css",
+                   "/static/Sender/assets/css/style.css",
+                   "/static/Receiver/assets/css/style.css"
                  ]
                }
              }
@@ -68,70 +76,83 @@ The ``"deploy"`` property of the ``"frame"`` object is assigned the value ``"tru
        }
      }
    ]
+
+.. _impl_notes-routes_config:
  
 Routing Configuration
-=====================
+---------------------
 
-In the ``routes.json`` below, two route paths are defined . The route configuration for the root path specifies that the ``index`` method of the ``frame`` instance of ``HTMLFrameMojit`` be 
-called when HTTP GET calls are received. Recall that the ``HTMLFrameMojit`` is the parent of the other mojits. Because the ``HTMLFrameMojit`` has no ``index`` function,  the ``index`` function 
-in the controller of the child mojit ``MasterMojit`` is called instead.
+In the snippet from ``app.js`` below, two route paths are defined . The route 
+configuration for the root path specifies that the ``index`` method of 
+the ``frame`` instance of ``HTMLFrameMojit`` be called when HTTP GET calls 
+are received. Recall that the ``HTMLFrameMojit`` is the parent of the other 
+mojits. Because the ``HTMLFrameMojit`` has no ``index`` function,  the ``index`` 
+function in the controller of the child mojit ``Master`` is called instead.
 
 .. code-block:: javascript
 
-   [
-     {
-       "settings": ["master"],
-       "root": {
-         "verbs": ["get"],
-         "path": "/",
-         "call": "frame.index"
-       },
-       "receiver": {
-         "verbs": ["get"],
-         "path": "/receiver/show",
-         "call": "receiver.show"
-       }
-     }
-   ]
+   var debug = require('debug')('app'),
+       express = require('express'),
+       libmojito = require('../../../'),
+       app;
+
+   app = express();
+   app.set('port', process.env.PORT || 8666);
+   libmojito.extend(app);
+
+   app.get('/', libmojito.dispatch('frame.index'));
+   app.get('/receiver/show', libmojito.dispatch('receiver.show'));
+
+.. _impl_notes-master_mojit:
 
 Master Mojit
-============
+------------
 
-The ``MasterMojit`` performs three major functions, each handled by a different file. The controller executes the ``index`` methods of the children mojits. The binder listens for events and then 
-broadcasts those events to its children. Lastly, the ``index`` view template displays the content created by the child mojits. We'll now take a look at each of the files to understand how they perform 
-these three functions.
+The ``Master`` mojit performs three major functions, each handled by a different 
+file. The controller executes the ``index`` methods of the children mojits. The 
+binder listens for events and then broadcasts those events to its children. 
+Lastly, the ``index`` template displays the content created by the child 
+mojits. We'll now take a look at each of the files to understand how they 
+perform these three functions.
 
-The ``controller.server.js`` below is very simple because the main purpose is to execute the ``index`` functions of the child mojits. The Action Context object ``actionContext`` is vital because 
-it gives the ``MasterMojit`` access to the child mojits through addons. The ``MasterMojit`` can execute the ``index`` functions of the child mojits by calling the ``done`` method from the ``Composite`` addon.
+The ``controller.server.js`` below is very simple because the main purpose 
+is to execute the ``index`` functions of the child mojits. The Action Context 
+object ``actionContext`` is vital because it gives the ``Master`` mojit access 
+to the child mojits through addons. The ``Master`` mojit can execute the 
+``index`` functions of the child mojits by calling the ``done`` method from 
+the ``Composite`` addon.
 
 .. code-block:: javascript
 
-   YUI.add('MasterMojit', function(Y,NAME) {
-     Y.mojito.controllers[NAME] = {
-       init: function(config) {
-         this.config = config;
-       },
+   YUI.add('master', function(Y, NAME) {
+     Y.namespace('mojito.controllers')[NAME] = {   
        "index": function(actionContext) {
          actionContext.composite.done();
        }
      };
-   }, '0.0.1', {requires: ['mojito']});
+   }, '0.0.1', {requires: ['mojito', 'mojito-composite-addon']});
 
-The binder for the ``MasterMojit`` listens for events from the ``SenderMojit``. Once an event is received, the ``MasterMojit`` then broadcasts that event to its child mojits. The child mojit ``ReceiverMojit`` will 
-then intercept the broadcasted events, which we look at later in :ref:`impl_notes-receiver_mojit`.
+The binder for the ``Master`` mojit listens for events from the ``Sender``
+mojit. Once an event is received, the ``Master`` mojit then broadcasts 
+that event to its child mojits. The child mojit ``Receiver`` will 
+then intercept the  broadcasted events, which we look at later in
+:ref:`impl_notes-receiver_mojit`.
 
-So, how do mojits listen to events from other mojits or broadcast events? On the client, each mojit binder can use the ``mojitProxy`` object to interact with other mojits on the page. 
-In the ``binders/index.js`` of the ``MasterMojit`` below, the ``mojitProxy`` object is used to listen to hyperlink events and then to broadcast an event to the child mojits. The first arguments 
+So, how do mojits listen to events from other mojits or broadcast events? On 
+the client, each mojit binder can use the ``mojitProxy`` object to interact 
+with other mojits on the page. In the ``binders/index.js`` of the 
+``Master`` mojit below, the ``mojitProxy`` object is used to listen to hyperlink 
+events and then to broadcast an event to the child mojits. The first arguments 
 passed to the ``listen`` and ``fire`` methods are the event types.
 
 .. code-block:: javascript
 
-   YUI.add('MasterMojitBinderIndex', function(Y, NAME) {
+   YUI.add('master-binder-index', function(Y, NAME) {
      Y.namespace("mojito.binders")[NAME]= {
        init: function(mojitProxy) {
          var mp = this.mp = this.mojitProxy = mojitProxy;             
          Y.log("mojitProxy.getChildren(): ");
-         Y.log("Entering MasterMojitBinderIndex");
+         Y.log("Entering master-binder-index");
          this.mojitProxy.listen('fire-link', function(payload) {
            var c = mp.getChildren();
            var receiverID = c["receiver"].viewId;
@@ -145,22 +166,29 @@ passed to the ``listen`` and ``fire`` methods are the event types.
        * mojit to attach DOM event handlers.
        * @param node {Node} The DOM node to which
        * this mojit is attached.
-       */
+       **/
        bind: function(node) {
          this.node = node;
        }
      };
    }, '0.0.1', {requires: ['mojito-client']});
 
-In the ``application.json`` file discussed in :ref:`impl_notes-app_config`, four mojit instances were declared: ``frame``, ``child``, ``sender``, and ``receiver``. Because the ``child`` instance 
-of ``MasterMojit`` is the parent of the ``sender`` and ``receiver`` mojit instances, the controller can execute the code in the child mojit instances by calling ``actionContext.composite.done()`` 
-in the controller. As you can see below, the output from the ``sender`` and ``receiver`` instances can be inserted into the view template through Mustache tags.
+In the ``application.json`` file discussed in :ref:`impl_notes-app_config`, 
+four mojit instances were declared: ``frame``, ``child``, ``sender``, and 
+``receiver``. Because the ``child`` instance of ``Master`` is the parent 
+of the ``sender`` and ``receiver`` mojit instances, the controller can execute 
+the code in the child mojit instances by calling ``actionContext.composite.done`` 
+in the controller. As you can see below, the output from the ``sender`` and 
+``receiver`` instances can be inserted into the template through Handlebars 
+expressions.
 
 .. code-block:: html
 
    <div id="{{mojit_view_id}}" class="mojit">
      <div id="header">
-     This example demonstrates inter mojit communication on a page. The mojit on the left side contains a list of image links. The mojit on the right side will display the image whenever a link in the left mojit is clicked on.
+     This example demonstrates inter mojit communication on a page. The mojit on the left 
+     side contains a list of image links. The mojit on the right side will display the 
+     image whenever a link in the left mojit is clicked on.
      </div>
      <table>
        <tr>
@@ -170,18 +198,25 @@ in the controller. As you can see below, the output from the ``sender`` and ``re
      </table>
    </div>
 
+.. _impl_notes-sender_mojit:
+
 Sender Mojit
-============
+------------
 
-The ``SenderMojit`` listens for click events and then forwards them and an associated URL to the ``MasterMojit``. Because the controller for the ``SenderMojit`` does little but send some text, 
-we will only examine the binder and index view template.
+The ``Sender`` mojit listens for click events and then forwards them and 
+an associated URL to the ``Master`` mojit. Because the controller for the 
+``Sender`` mojit does little but send some text, we will only examine the 
+binder and index template.
 
-The binder for the ``SenderMojit`` binds and attaches event handlers to the DOM. In the ``binders/index.js`` below, the handler for click events uses the ``mojitProxy`` object to fire the event to the binder for the ``MasterMojit``. The URL of the clicked link is passed to the ``MasterMojit``.
+The binder for the ``Sender`` mojit binds and attaches event handlers to the 
+DOM. In the ``binders/index.js`` below, the handler for click events uses 
+the ``mojitProxy`` object to fire the event to the binder for the 
+``Master`` mojit. The URL of the clicked link is passed to ``Master``.
 
 
 .. code-block:: javascript
 
-   YUI.add('SenderMojitBinderIndex', function(Y, NAME) {
+   YUI.add('sender-binder-index', function(Y, NAME) {
      Y.namespace('mojito.binders')[NAME] = {
        init: function(mojitProxy) {
          this.mp = mojitProxy;
@@ -200,8 +235,9 @@ The binder for the ``SenderMojit`` binds and attaches event handlers to the DOM.
      };
    }, '0.0.1', {requires: ['node','mojito-client']});
 
-The ``index`` view template for the ``SenderMojit`` has an unordered list of links to Flickr photos. As we saw in the binder, the handler for click events passes the event and the link URL 
-to the ``MasterMojit``.
+The ``index`` template for the ``Sender`` mojit has an unordered list of links 
+to Flickr photos. As we saw in the binder, the handler for click events passes 
+the event and the link URL to the ``Master`` mojit.
 
 .. code-block:: html
 
@@ -223,20 +259,20 @@ to the ``MasterMojit``.
 .. _impl_notes-receiver_mojit:
 
 Receiver Mojit
-==============
+--------------
 
-The ``ReceiverMojit`` is responsible for capturing events that were broadcasted by ``MasterMojit`` and then displaying the photo associated with the link that was clicked.
+The ``Receiver`` mojit is responsible for capturing events that were broadcasted 
+by ``Master`` mojit and then displaying the photo associated with the link that 
+was clicked.
 
-In the controller for ``ReceiverMojit``, the additional function ``show`` displays a photo based on the query string parameter ``url`` or a default photo. The ``show`` function gets invoked from the binder, 
-which we'll look at next.
+In the controller for ``Receiver`` mojit, the additional function ``show`` displays 
+a photo based on the query string parameter ``url`` or a default photo. The ``show`` 
+function gets invoked from the binder, which we'll look at next.
 
 .. code-block:: javascript
 
-   YUI.add('ReceiverMojit', function(Y,NAME) {
-     Y.mojito.controllers[NAME] = {
-       init: function(config) {
-         this.config = config;
-       },
+   YUI.add('receiver', function(Y, NAME) {
+     Y.namespace('mojito.controllers')[NAME] = {   
        index: function(actionContext) {
          actionContext.done({title: 'This is the receiver mojit'});
        },
@@ -245,14 +281,16 @@ which we'll look at next.
          actionContext.done({title: 'Image matching the link clicked on the left.', url: url});
        }
      };
-   }, '0.0.1', {requires: []});
+   }, '0.0.1', {requires: ['mojito-params-addon']});
 
-The binder for the ``ReceiverMojit`` listens for broadcasted link events. In the ``binders/index.js`` below, those broadcasted link events, which are the event type "broadcast-link", will come from 
-the ``MasterMojit``. When the event is captured, the ``mojitProxy`` object is used to invoke the ``show`` function and pass the photo URI.
+The binder for the ``Receiver`` mojit listens for broadcasted link events. In the 
+``binders/index.js`` below, those broadcasted link events, which are the event type 
+"broadcast-link", will come from the ``Master`` mojit. When the event is captured, the 
+``mojitProxy`` object is used to invoke the ``show`` function and pass the photo URI.
 
 .. code-block:: javascript
 
-   YUI.add('ReceiverMojitBinderIndex', function(Y,NAME) {
+   YUI.add('receiver-binder-index', function(Y, NAME) {
      Y.namespace('mojito.binders')[NAME] = {
        init: function(mojitProxy) {
          var self = this;
@@ -276,33 +314,33 @@ the ``MasterMojit``. When the event is captured, the ``mojitProxy`` object is us
        * mojit to attach DOM event handlers.
        * @param node {Node} The DOM node to which
        * this mojit is attached.
-       */
+       **/
        bind: function(node) {
          this.node = node;
        }
      };
    }, '0.0.1', {requires: ['mojito-client']});
 
+.. _code_exs_intermojit-setup:
+
 Setting Up this Example
-#######################
+=======================
 
 To set up and run ``inter-mojit``:
 
 #. Create your application.
 
    ``$ mojito create app inter-mojit``
-
 #. Change to the application directory.
-
 #. Create the mojits for the application.
 
-   ``$ mojito create mojit MasterMojit``
+   ``$ mojito create mojit Master``
 
-   ``$ mojito create mojit SenderMojit``
+   ``$ mojito create mojit Sender``
 
-   ``$ mojito create mojit ReceiverMojit``
-
-#. To configure your application to use the mojits you created, replace the code in ``application.json`` with the following:
+   ``$ mojito create mojit Receiver``
+#. To configure your application to use the mojits you created, replace the code in 
+   ``application.json`` with the following:
 
    .. code-block:: javascript
 
@@ -315,14 +353,14 @@ To set up and run ``inter-mojit``:
               "config": {
                 "deploy": true,
                 "child": {
-                  "type": "MasterMojit",
+                  "type": "Master",
                   "config":{
                     "children": {
                       "sender": {
-                        "type": "SenderMojit"
+                        "type": "Sender"
                       },
                       "receiver": {
-                        "type": "ReceiverMojit"
+                        "type": "Receiver"
                       }
                     }
                   }
@@ -330,9 +368,9 @@ To set up and run ``inter-mojit``:
                 "assets": {
                   "top": {
                     "css":[
-                      "/static/MasterMojit/assets/css/style.css",
-                      "/static/SenderMojit/assets/css/style.css",
-                      "/static/ReceiverMojit/assets/css/style.css"
+                      "/static/Master/assets/css/style.css",
+                      "/static/Sender/assets/css/style.css",
+                      "/static/Receiver/assets/css/style.css"
                     ]
                   }
                 }
@@ -342,53 +380,78 @@ To set up and run ``inter-mojit``:
         }
       ]
 
-#. To configure routing for the root path and the path ``/receiver/show``, create the file ``routes.json`` with the following:
+#. Update your ``app.js`` with the following to use Mojito's middleware, configure routing and the port, and 
+   have your application listen for requests:
 
    .. code-block:: javascript
 
-      [
-        {
-          "settings": ["master"],
-          "root": {
-            "verbs": ["get"],
-            "path": "/",
-            "call": "frame.index"
-          },
-          "receiver": {
-            "verbs": ["get"],
-            "path": "/receiver/show",
-            "call": "receiver.show"
-          }
-        }
-      ]
+      'use strict';
 
-#. Change to ``mojits/MasterMojit``.
+      var debug = require('debug')('app'),
+          express = require('express'),
+          libmojito = require('mojito'),
+          app;
 
-#. To allow the ``MasterMojit`` to execute its children mojits, replace the code in ``controller.server.js`` with the following:
+          app = express();
+          app.set('port', process.env.PORT || 8666);
+          libmojito.extend(app);
+
+          app.use(libmojito.middleware());
+
+          app.get('/status', function (req, res) {
+              res.send('200 OK');
+          });
+          app.get('/', libmojito.dispatch('frame.index'));
+          app.get('/receiver/show', libmojito.dispatch('receiver.show'));
+
+          app.listen(app.get('port'), function () {
+              debug('Server listening on port ' + app.get('port') + ' ' +
+              'in ' + app.get('env') + ' mode');
+          });
+          module.exports = app;
+
+#. Confirm that your ``package.json`` has the correct dependencies as show below. If not,
+   update ``package.json``.
 
    .. code-block:: javascript
 
-      YUI.add('MasterMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(spec) {
-            this.spec=spec;
-          },
+      "dependencies": {
+          "debug": "*",
+           "mojito": "~0.9.0"
+      },
+      "devDependencies": {
+          "mojito-cli": ">= 0.2.0"
+      },
+
+#. From the application directory, install the application dependencies:
+
+   ``$ npm install``
+
+#. Change to ``mojits/Master``.
+#. To allow the ``Master`` to execute its children mojits, replace the code in 
+   ``controller.server.js`` with the following:
+
+   .. code-block:: javascript
+
+      YUI.add('master', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
           "index": function(actionContext) {
             actionContext.composite.done();
           }
         };
-      }, '0.0.1', {requires: []});
+      }, '0.0.1', {requires: ['mojito-composite-addon']});
 
-#. To allow the ``MasterMojit`` to capture events and refire them to its children mojits, replace the code in ``binders/index.js`` with the following:
+#. To allow the ``Master`` mojit to capture events and refire them to its children mojits, 
+   replace the code in ``binders/index.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('MasterMojitBinderIndex', function(Y, NAME) {
+      YUI.add('master-binder-index', function(Y, NAME) {
         Y.namespace("mojito.binders")[NAME]= {
           init: function(mojitProxy) {
             var mp = this.mp = this.mojitProxy = mojitProxy;
             Y.log("mojitProxy.getChildren(): ");
-            Y.log("Entering MasterMojitBinderIndex");
+            Y.log("Entering master-binder-index");
             this.mojitProxy.listen('fire-link', function(payload) {
               var c = mp.getChildren();
               var receiverID = c["receiver"].viewId;
@@ -402,22 +465,25 @@ To set up and run ``inter-mojit``:
           * mojit to attach DOM event handlers.
           * @param node {Node} The DOM node to which
           * this mojit is attached.
-          */
+          **/
           bind: function(node) {
             this.node = node;
           }
         };
       }, '0.0.1', {requires: ['mojito-client']});
 
-#. Modify the ``index`` view template to include output from the ``SenderMojit`` and ``ReceiverMojit`` by replacing the code in ``views/index.mu.html`` with the following:
+#. Modify the ``index`` template to include output from the mojits ``Sender`` and 
+   ``Receiver`` by replacing the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
       <div id="{{mojit_view_id}}" class="mojit">
         <div id="header">
-        This example demonstrates inter mojit communication on a page.
-        The mojit on the left side contains a list of image links.
-        The mojit on the right side will display the image whenever a link in the left mojit is clicked on.</div>
+          This example demonstrates inter mojit communication on a page.
+          The mojit on the left side contains a list of image links.
+          The mojit on the right side will display the image whenever a link in the left 
+          mojit is clicked on.
+        </div>
         <table>
           <tr>
             <td class="left">{{{sender}}}</td>
@@ -426,30 +492,27 @@ To set up and run ``inter-mojit``:
         </table>
       </div>
 
-#. Change to the ``SenderMojit`` directory.
+#. Change to the ``Sender`` directory.
 
-   ``$ cd ../SenderMojit``
-
+   ``$ cd ../Sender``
 #. Replace the code in ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('SenderMojit', function(Y,NAME) {
-         Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
+      YUI.add('sender', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
           index: function(actionContext) {
             actionContext.done({title: 'List of images for testing'});
           }
         };
       }, '0.0.1', {requires: []});
 
-#. To allow the ``SenderMojit`` to fire an event, replace the code in ``binders/index.js`` with the following:
+#. To allow the ``Sender`` mojit to fire an event, replace the code in ``binders/index.js`` 
+   with the following:
 
    .. code-block:: javascript
 
-      YUI.add('SenderMojitBinderIndex', function(Y, NAME) {
+      YUI.add('sender-binder-index', function(Y, NAME) {
         Y.namespace('mojito.binders')[NAME] = {
           init: function(mojitProxy) {
             this.mp = mojitProxy;
@@ -468,7 +531,8 @@ To set up and run ``inter-mojit``:
         };
       }, '0.0.1', {requires: ['node','mojito-client']});
 
-#. To provide an unordered list of image links to the ``index`` view template of the ``MasterMojit``, replace the code in ``views/index..mu.html`` with the following:
+#. To provide an unordered list of image links to the ``index`` template of the 
+   ``Master`` mojit, replace the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
@@ -487,19 +551,16 @@ To set up and run ``inter-mojit``:
         </ul>
       </div>
 
-#. Change to the ``ReceiverMojit`` directory.
+#. Change to the ``Receiver`` directory.
 
-   ``$ cd ../ReceiverMojit``
-
-#. To display an image associated with a clicked link,  replace the code in ``controller.server.js`` with the following:
+   ``$ cd ../Receiver``
+#. To display an image associated with a clicked link, replace the code in 
+   ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('ReceiverMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(spec) {
-            this.spec = spec;
-          },
+      YUI.add('receiver', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
           "index": function(actionContext) {
             actionContext.done({title: 'This is the receiver mojit'});
           },
@@ -508,13 +569,14 @@ To set up and run ``inter-mojit``:
             actionContext.done({title: 'Image matching the link clicked on the left.', url: url});
           }
         };
-      }, '0.0.1', {requires: []});
+      }, '0.0.1', {requires: ['mojito-params-addon']});
 
-#. To allow the ``ReceiverMojit`` to capture an event and invoke the ``show`` function in the controller, replace the code in ``binders/index.js`` with the following:
+#. To allow the ``Receiver`` mojit to capture an event and invoke the ``show`` function in 
+   the controller, replace the code in ``binders/index.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('ReceiverMojitBinderIndex', function(Y,NAME) {
+      YUI.add('receiver-binder-index', function(Y, NAME) {
         Y.namespace('mojito.binders')[NAME] = {
           init: function(mojitProxy) {
             var self = this;
@@ -538,27 +600,28 @@ To set up and run ``inter-mojit``:
           * mojit to attach DOM event handlers.
           * @param node {Node} The DOM node to which
           * this mojit is attached.
-          */
+          **/
           bind: function(node) {
             this.node = node;
           }
         };
       }, '0.0.1', {requires: ['mojito-client']});
 
-#. Replace the code in ``views/index.mu.html`` with the following:
+#. Replace the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
-      <div id="{{mojit_view_id}}" class="ReceiverMojit">
+      <div id="{{mojit_view_id}}" class="Receiver">
         <div id="view" style="margin: auto auto;"></div>
       </div>
 
-#. To create the view template that displays the photo of the clicked link, create the file ``views/show.mu.html`` with the following:
+#. To create the template that displays the photo of the clicked link, create the file 
+   ``views/show.hb.html`` with the following:
 
    .. code-block:: html
 
-      <div id="{{mojit_view_id}}" class="ReceiverMojit">
-        <h3></h3>
+      <div id="{{mojit_view_id}}" class="Receiver">
+        <h3>{{title}}</h3>
         <div id="view">
           <img src="{{url}}" width="200px" alt="Missing Image"/>
         </div>
@@ -566,23 +629,23 @@ To set up and run ``inter-mojit``:
 
 #. From the application directory, start the server.
 
-   ``$ mojito start``
-
+   ``$ node app.js``
 #. To view your application, go to the URL:
 
    http://localhost:8666
 
+.. _code_exs_intermojit-src:
+
 Source Code
-###########
+===========
 
 - `Application Configuration <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/application.json>`_
-- `Master Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/MasterMojit/controller.server.js>`_
-- `Master Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/MasterMojit/binders/index.js>`_
-- `Master Mojit View Template <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/MasterMojit/views/index.html>`_
-- `Sender Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/SenderMojit/controller.js>`_
-- `Sender Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/SenderMojit/binders/binder.js>`_
-- `Receiver Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/ReceiverMojit/controller.js>`_
-- `Receiver Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/ReceiverMojit/binders/binder.js>`_
+- `Master Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Master/controller.server.js>`_
+- `Master Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Master/binders/index.js>`_
+- `Master Mojit Template <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Master/views/index.html>`_
+- `Sender Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Sender/controller.js>`_
+- `Sender Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Sender/binders/binder.js>`_
+- `Receiver Mojit Controller <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Receiver/controller.js>`_
+- `Receiver Mojit Binder <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/mojits/Receiver/binders/binder.js>`_
 - `Inter-Mojit Application <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/inter-mojit/>`_
-
 

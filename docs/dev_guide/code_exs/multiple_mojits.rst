@@ -1,5 +1,3 @@
-
-
 =====================
 Using Multiple Mojits
 =====================
@@ -8,50 +6,60 @@ Using Multiple Mojits
 
 **Difficulty Level:** Intermediate
 
-Summary
-#######
+.. _code_exs_multiple_mojits-summary:
 
-This example shows how to use a parent mojit with multiple child mojits to create an HTML page.
+Summary
+=======
+
+This example shows how to use a parent mojit with multiple child mojits to create an HTML 
+page.
 
 The following topics will be covered:
 
 - configuring the application to use multiple mojits
-- including the output from different mojits in one view template
-- embedding the rendered view template into the HTML frame
+- including the output from different mojits in one template
+- embedding the rendered template into the HTML frame
 
-.. tip:: To learn how to use the Mojito built-in mojit ``HTMLFrameMojit`` to aggregate and display the output from child mojits, see `Using the HTML Frame Mojit <./htmlframe_view.html>`_.
+.. tip:: 
+         To learn how to use the Mojito built-in mojit ``HTMLFrameMojit`` to aggregate 
+         and display the output from child mojits, see 
+         `Using the HTML Frame Mojit <./htmlframe_view.html>`_.
+
+.. _code_exs_multiple_mojits-notes:
 
 Implementation Notes
-####################
+====================
 
-In the screenshot below, you see an HTML page divided into header, body, and footer sections that were created by individual mojits.
+In the screenshot below, you see an HTML page divided into header, body, and footer 
+sections that were created by individual mojits.
 
 .. image:: images/preview.multiple_mojits.gif
-   :height: 368px
+   :height: 415px
    :width: 401px
 
-In the ``application.json`` below that is used for this code example, you see that this application is using the ``frame`` instance of type ``FrameMojit``. 
-The ``FrameMojit`` forms a skeleton page of ``div`` tags that use content created by the child mojits ``HeaderMojit``, ``BodyMojit``, and ``FooterMojit``.
+In the ``application.json`` below that is used for this code example, you see that this 
+application is using the ``frame`` instance of type ``Frame``. The ``Frame`` 
+forms a skeleton page of ``div`` tags that use content created by the child mojits 
+``Header``, ``Body``, and ``Footer``.
 
 .. code-block:: javascript
 
    [
      {
        "settings": [ "master" ],
-       "appPort": 8666,
        "specs": {
          "parent": {
-           "type": "FrameMojit",
+           "type": "Frame",
            "config" : {
              "children": {
                "header": {
-                 "type": "HeaderMojit"
+                 "type": "Header"
                },
                "body": {
-                 "type": "BodyMojit"
+                 "type": "Body"
                },
                "footer": {
-                 "type": "FooterMojit"
+                 "type": "Footer"
                }
              }
            }
@@ -60,57 +68,27 @@ The ``FrameMojit`` forms a skeleton page of ``div`` tags that use content create
      }
    ]
 
-In ``routes.json``, the path set for each mojit is different, but the ``index`` function from each mojit is called when GET calls are made. What's not obvious here is how the ``frame`` mojit 
-gets output from the other mojits because that happens in the controller of the ``frame`` mojit and not in the route configuration.
+In ``controller.server.js`` of the ``Frame``, the ``Composite`` addon allows the 
+parent mojit to execute the child mojits defined in ``application.json`` that we looked at 
+earlier. After the children mojits are executed, the data that is passed to the ``done`` 
+method in the children mojits becomes accessible in the ``index.hb.html`` template of 
+``Frame``, which we will take a look at next.
 
 .. code-block:: javascript
 
-   [
-     {
-       "settings": ["master"],
-       "root": {
-         "verbs": ["get"],
-         "path": "/",
-         "call": "frame.index"
-       },
-       "header": {
-         "verbs": ["get"],
-         "path": "/header",
-         "call": "header.index"
-       },
-       "body": {
-         "verbs": ["get"],
-         "path": "/body",
-         "call": "body.index"
-       },
-       "footer": {
-         "verbs": ["get"],
-         "path": "/footer",
-         "call": "footer.index"
-       }
-     }
-   ]
+   YUI.add('frame', function(Y, NAME) {
+     Y.namespace('mojito.controllers')[NAME] = {   
 
-In ``controller.server.js`` of the ``FrameMojit``, the ``Composite`` addon allows the parent mojit to execute the child mojits defined in ``application.json`` that we looked at earlier. 
-After the children mojits are executed, the data that is passed to the ``done`` method in the children mojits becomes accessible in the ``index.mu.html`` view template of ``FrameMojit``, 
-which we will take a look at next.
-
-.. code-block:: javascript
-
-   YUI.add('FrameMojit', function(Y,NAME) {
-     Y.mojito.controllers[NAME] = {
-       init: function(config) {
-         this.config = config;
-       },
        index: function(actionContext) {
-           actionContext.composite.done({template: {title: "Parent Frame"}});
+           actionContext.composite.done({title: "Parent Frame"});
          }
        };
      }
-   }, '0.0.1', {requires: []});
+   }, '0.0.1', {requires: ['mojito-composite-addon']});
 
-The ``index.mu.html`` view template of ``FrameMojit``, shown below, has variables from the children mojits in different ``div`` tags. The variables ``header``, ``body``, and ``footer`` are in triple mustaches, 
-which allows you to return unescaped HTML.
+The ``index.hb.html`` template of ``Framed``, shown below, has variables from the 
+children mojits in different ``div`` tags. The variables ``header``, ``body``, and 
+``footer`` are in triple braces, which allows you to return unescaped HTML.
 
 .. code-block:: html
 
@@ -127,28 +105,29 @@ which allows you to return unescaped HTML.
      </div>
    </div>
 
+.. _code_exs_multiple_mojits-setup:
+
 Setting Up this Example
-#######################
+=======================
 
 To set up and run ``multiple_mojits``:
 
 #. Create your application.
 
    ``$ mojito create app multiple_mojits``
-
 #. Change to the application directory.
-
 #. Create the mojits for the HTML frame, body, header, and footer.
 
-   ``$ mojito create mojit FrameMojit``
+   ``$ mojito create mojit Frame``
 
-   ``$ mojito create mojit BodyMojit``
+   ``$ mojito create mojit Body``
 
-   ``$ mojito create mojit HeaderMojit``
+   ``$ mojito create mojit Header``
 
-   ``$ mojito create mojit FooterMojit``
+   ``$ mojito create mojit Footer``
 
-#. To configure your application to use the mojits you created, replace the code in ``application.json`` with the following:
+#. To configure your application to use the mojits you created, replace the code in 
+   ``application.json`` with the following:
 
    .. code-block:: javascript
 
@@ -157,17 +136,17 @@ To set up and run ``multiple_mojits``:
           "settings": [ "master" ],
           "specs": {
             "frame": {
-              "type": "FrameMojit",
+              "type": "Frame",
               "config": {
                 "children": {
                   "header": {
-                    "type": "HeaderMojit"
+                    "type": "Header"
                   },
                   "body": {
-                    "type": "BodyMojit"
+                    "type": "Body"
                   },
                   "footer": {
-                    "type": "FooterMojit"
+                    "type": "Footer"
                   }
                 }
               }
@@ -176,54 +155,69 @@ To set up and run ``multiple_mojits``:
         }
       ]
 
-#. To configure routing, create the file ``routes.json`` with the following:
+#. Update your ``app.js`` with the following to use Mojito's middleware, configure routing and the port, and 
+   have your application listen for requests:
 
    .. code-block:: javascript
 
-      [
-        {
-          "settings": ["master"],
-          "root": {
-            "verbs": ["get"],
-            "path": "/",
-            "call": "frame.index"
-          },
-          "header": {
-            "verbs": ["get"],
-            "path": "/header",
-            "call": "header.index"
-          },
-          "body": {
-            "verbs": ["get"],
-            "path": "/body",
-            "call": "body.index"
-          },
-          "footer": {
-            "verbs": ["get"],
-            "path": "/footer",
-            "call": "footer.index"
-          }
-        }
-      ]
+      'use strict';
 
-#. Change to ``mojits/FrameMojit``.
+      var debug = require('debug')('app'),
+          express = require('express'),
+          libmojito = require('mojito'),
+          app;
 
-#. To allow the ``FrameMojit`` to execute its child mojits, replace the code in ``controller.server.js`` with the following:
+          app = express();
+          app.set('port', process.env.PORT || 8666);
+          libmojito.extend(app);
+
+          app.use(libmojito.middleware());
+
+          app.get('/status', function (req, res) {
+              res.send('200 OK');
+          });
+          app.get('/', libmojito.dispatch('parent.index'));
+
+          app.listen(app.get('port'), function () {
+              debug('Server listening on port ' + app.get('port') + ' ' +
+              'in ' + app.get('env') + ' mode');
+          });
+          module.exports = app;
+
+#. Confirm that your ``package.json`` has the correct dependencies as show below. If not,
+   update ``package.json``.
 
    .. code-block:: javascript
 
-      YUI.add('FrameMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
+      "dependencies": {
+          "debug": "*",
+           "mojito": "~0.9.0"
+      },
+      "devDependencies": {
+          "mojito-cli": ">= 0.2.0"
+      },
+
+#. From the application directory, install the application dependencies:
+
+   ``$ npm install``
+
+#. Change to ``mojits/Frame``.
+#. To allow the ``Frame`` to execute its child mojits, replace the code in 
+   ``controller.server.js`` with the following:
+
+   .. code-block:: javascript
+
+      YUI.add('frame', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
+
           index: function(actionContext) {
-              actionContext.composite.done({template: {title: "Parent Frame"}});
+              actionContext.composite.done({title: "Parent Frame"});
           }
         };
-      }, '0.0.1', {requires: []});
+      }, '0.0.1', {requires: ['mojito-composite-addon']});
 
-#. Modify the default template to use mustache variables from the child mojits by replacing the code in ``views/index.mu.html`` with the following:
+#. Modify the default template to use Handlebars expressions from the child mojits by 
+   replacing the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: javascript
 
@@ -240,28 +234,26 @@ To set up and run ``multiple_mojits``:
         </div>
       </div>
 
-#. Change to ``HeaderMojit`` directory.
+#. Change to ``Header`` directory.
 
-   ``$ cd ../HeaderMojit``
+   ``$ cd ../Header``
 
 #. Replace the code in ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('HeaderMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
+      YUI.add('header', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
+
           index: function(actionContext) {
             actionContext.done({title: "Header"});
           }
         };
       }, '0.0.1', {requires: []});
 
-   The ``done`` method will make its parameters available to the view template.
+   The ``done`` method will make its parameters available to the template.
 
-#. Replace the code in ``views/index.mu.html`` with the following:
+#. Replace the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
@@ -269,28 +261,27 @@ To set up and run ``multiple_mojits``:
         <h3>{{title}}</h3>
       </div>
 
-   This HTML fragment will be included in the header section of the default view template of ``FrameMojit``.
+   This HTML fragment will be included in the header section of the default template of 
+   ``Frame``.
 
-#. Change to ``BodyMojit`` directory.
+#. Change to ``Body`` directory.
 
-   ``$ cd ../BodyMojit``
+   ``$ cd ../Body``
 
 #. Replace the code in ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('BodyMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
+      YUI.add('body', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
+
           index: function(actionContext) {
             actionContext.done({title: "Body"});
           }
         };
       }, '0.0.1', {requires: []});
 
-#. Replace the code in ``views/index.mu.html`` with the following:
+#. Replace the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
@@ -298,28 +289,27 @@ To set up and run ``multiple_mojits``:
         <h4>{{title}}</h4>
       </div>
 
-   This HTML fragment will be included in the body section of the default view template of ``FrameMojit``.
+   This HTML fragment will be included in the body section of the default template of 
+   ``Frame``.
 
-#. Change to the ``FooterMojit`` directory.
+#. Change to the ``Footer`` directory.
 
-   ``$ cd ../FooterMojit``
+   ``$ cd ../Footer``
 
 #. Replace the code in ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('FooterMojit', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
+      YUI.add('footer', function(Y, NAME) {
+        Y.namespace('mojito.controllers')[NAME] = {   
+
           index: function(actionContext) {
             actionContext.done({title: "Footer"});
           }
         };
       }, '0.0.1', {requires: ['mojito']});
 
-#. Replace the code in ``views/index.mu.html`` with the following:
+#. Replace the code in ``views/index.hb.html`` with the following:
 
    .. code-block:: html
 
@@ -327,20 +317,21 @@ To set up and run ``multiple_mojits``:
         <h3>{{title}}</h3>
       </div>
 
-   This HTML fragment will be included in the footer section of the default view template of ``FrameMojit``.
+   This HTML fragment will be included in the footer section of the default template of 
+   ``Frame``.
 
 #. From the application directory, run the server.
 
-   ``$ mojito start``
-
+   ``$ node app.js``
 #. To view your application, go to the URL:
 
    http://localhost:8666
 
+.. _code_exs_multiple_mojits-src:
+
 Source Code
-###########
+===========
 
 - `Application Configuration <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/multiple_mojits/application.json>`_
 - `Multiple Mojit Application <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/multiple_mojits/>`_
-
 

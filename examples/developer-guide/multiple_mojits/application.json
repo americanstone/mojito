@@ -1,20 +1,23 @@
 [ 
   {
     "settings": [ "master" ],
-    "appPort": 8666,
+    "staticHandling": {
+        "cache": false,
+        "forceUpdate": true
+    },
     "specs": {
       "parent": {
-        "type": "FrameMojit", 
+        "type": "Frame", 
         "config" : {
           "children": {
             "header": {
-              "type": "HeaderMojit"
+              "type": "Header"
             },
             "body": {
-              "type": "BodyMojit"
+              "type": "Body"
             },
             "footer": {
-              "type": "FooterMojit"
+              "type": "Footer"
             }
           }
         }

@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('MyServer', function(Y) {
+YUI.add('myserver', function(Y, NAME) {
 
 /**
- * The MyServer module.
+ * The myserver module.
  *
- * @module MyServer
+ * @module myserver
  */
 
     /**
@@ -18,11 +18,7 @@ YUI.add('MyServer', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
-
-        init: function(config) {
-            this.config = config;
-        },
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.

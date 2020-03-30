@@ -1,5 +1,3 @@
-
-
 ================
 Mojito Reference
 ================
@@ -12,5 +10,4 @@ This reference includes the following sections:
    mojito_cmdline
    mojito_troubleshooting
    glossary
-
 

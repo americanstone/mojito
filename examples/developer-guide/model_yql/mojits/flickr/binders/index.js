@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('flickrBinderIndex', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('flickr-binder-index', function (Y, NAME) {
 
 /**
- * The flickrBinderIndex module.
+ * The flickr-binder-index module.
  *
- * @module flickrBinderIndex
+ * @module flickr-binder-index
  */
 
     /**
@@ -37,7 +39,7 @@ YUI.add('flickrBinderIndex', function(Y, NAME) {
          *
          * @param node {Node} The DOM node to which this mojit is attached.
          */
-        bind: function(node) {
+        bind: function (node) {
             this.node = node;
         }
 

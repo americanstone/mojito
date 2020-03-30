@@ -1,14 +1,16 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Notepad', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
 
-    Y.mojito.controllers[NAME] = {
+YUI.add('notepad', function (Y, NAME) {
 
-        index: function(ac) {
+    Y.namespace('mojito.controllers')[NAME] = {
+
+        index: function (ac) {
             ac.done();
         }
 

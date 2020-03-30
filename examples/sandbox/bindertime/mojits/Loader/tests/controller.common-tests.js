@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Loader-tests', function(Y, NAME) {
+YUI.add('loader-tests', function(Y, NAME) {
     
     var suite = new YUITest.TestSuite(NAME),
         controller = null,
@@ -12,10 +12,10 @@ YUI.add('Loader-tests', function(Y, NAME) {
     
     suite.add(new YUITest.TestCase({
         
-        name: 'Loader user tests',
+        name: 'loader user tests',
         
         setUp: function() {
-            controller = Y.mojito.controller;
+            controller = Y.mojito.controllers["loader"];
         },
         tearDown: function() {
             controller = null;
@@ -46,4 +46,4 @@ YUI.add('Loader-tests', function(Y, NAME) {
     
     YUITest.TestRunner.add(suite);
     
-}, '0.0.1', {requires: ['mojito-test', 'Loader']});
+}, '0.0.1', {requires: ['mojito-test', 'loader']});

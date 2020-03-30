@@ -1,48 +1,55 @@
-# Yahoo! Mojito
+<img src="http://www.blackducksoftware.com/files/images/Rookie_2012-125.png" alt="Black Duck OS 2012 Rookie of the Year" align="right" vspace="-50" />
+
+# Yahoo! Mojito [![Build Status](https://secure.travis-ci.org/yahoo/mojito.svg?branch=develop)](http://travis-ci.org/yahoo/mojito)
 
 Mojito is the JavaScript library implementing Cocktails, a JavaScript-based
 on-line/off-line, multi-device, hosted application platform.
 
-## Installation
 
-### via GitHub
 
-    $ git clone git://github.com/yahoo/mojito.git
-    $ cd mojito/source
-    $ npm install -g .
-    $ npm install .
 
-### via npm
+## Quick Start 
 
-    $ npm install -g mojito
+This quick start is intended for Mojito application developers. To contribute to the Mojito project,
+see [Contributing Code to Mojito](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
 
-## Quick Start
 
-Create an app and install local Mojito:
+1. Install the Mojito command-line tool:
 
-    $ mojito create app hello
-    $ cd hello
-    $ npm install .
+        $ npm install -g mojito-cli
 
-Create a mojit:
+1. Create an app:
 
-    $ mojito create mojit HelloMojit
+        $ mojito create app hello
+        $ cd hello
 
-Start the server:
+1. Create a mojit:
 
-    $ mojito start
+        $ mojito create mojit HelloMojit
 
-Go to URL:
+1. Start the server:
 
-    http://localhost:8666/@HelloMojit/index
+        $ mojito start
 
-Run Unit Tests:
+1. Go to http://localhost:8666/@HelloMojit/index
 
-    $ mojito test app .
+1. Run Unit Tests:
 
-Generate documentation:
+        $ mojito test app .
 
-    $ mojito docs app hello
+1. Generate documentation:
+
+        $ mojito docs app hello
+        
+## Mojito Git Branches
+
+The default branch for the Mojito GitHub repository is `develop`. To clone the version of Mojito that is the same as 
+the latest version of Mojito in the npm registry, explicitly request the `master` branch: `git clone https://github.com/yahoo/mojito.git --branch master`
+Mojito application developers should work with the `master` branch.
+
+Mojito contributors, however, should clone and make pull requests to the `develop` branch. Before you
+start contributing, please read [Contributing Code to Mojito](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
+
 
 ## Documentation
 
@@ -53,6 +60,7 @@ Generate documentation:
 * Mojito FAQ - http://developer.yahoo.com/cocktails/mojito/docs/faq/
 * Mojito Introduction - http://developer.yahoo.com/cocktails/mojito/docs/intro/
 * Mojito Getting Started - http://developer.yahoo.com/cocktails/mojito/docs/getting_started/
+
 
 ### API Documentation
 
@@ -69,10 +77,3 @@ http://developer.yahoo.com/forum/Yahoo-Mojito
 Mojito is licensed under a [BSD license](https://github.com/yahoo/mojito/blob/master/LICENSE.txt). To contribute to the Mojito project, please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito). 
 
 The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model) which allows anyone to contribute and gain additional responsibilities.
-
-## Third-party libraries
-
-Mojito includes the Mulib software available here:
-
-https://github.com/raycmorgan/Mu
-

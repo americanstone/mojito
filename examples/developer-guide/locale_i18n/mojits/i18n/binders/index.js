@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('i18nBinderIndex', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('i18n-binder-index', function (Y, NAME) {
 
 /**
- * The i18nBinderIndex module.
+ * The i18n-binder-index module.
  *
- * @module i18nBinderIndex
+ * @module i18n-binder-index
  */
 
     /**
@@ -37,7 +39,7 @@ YUI.add('i18nBinderIndex', function(Y, NAME) {
          *
          * @param node {Node} The DOM node to which this mojit is attached.
          */
-        bind: function(node) {
+        bind: function (node) {
             this.node = node;
         }
 

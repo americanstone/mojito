@@ -1,26 +1,27 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ContactUs', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
 
-    Y.mojito.controllers[NAME] = {
+YUI.add('contactus', function (Y, NAME) {
 
-        init: function(config) {
-            this.config = config;
-        },
+    Y.namespace('mojito.controllers')[NAME] = {
 
-        index: function(ac) {
+        index: function (ac) {
             var vudata = {
                 'company': ac.config.get("company"),
-                'copyright': this.config.copyright,
-                'depts': ac.config.getDefinition(this.config.key)
-            }
+                'copyright': ac.config.get("copyright"),
+                'depts': ac.config.getDefinition(ac.config.get("key"))
+            };
 
             ac.done(vudata);
         }
     };
 
-}, '0.0.1', {requires: ['mojito']});
+}, '0.0.1', {requires: [
+    'mojito',
+    'mojito-config-addon'
+]});

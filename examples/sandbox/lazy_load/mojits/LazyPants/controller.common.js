@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('LazyPants', function(Y) {
+YUI.add('lazypants', function(Y, NAME) {
 
 /**
- * The LazyPants module.
+ * The lazypants module.
  *
- * @module LazyPants
+ * @module lazypants
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('LazyPants', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.

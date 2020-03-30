@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('FlickrBrowser', function(Y) {
+YUI.add('flickrbrowser', function (Y, NAME) {
+
+    "use strict";
 
 /**
- * The FlickrBrowser module.
+ * The flickrbrowser module.
  *
- * @module FlickrBrowser
+ * @module flickrbrowser
  */
 
     /**
@@ -18,7 +20,7 @@ YUI.add('FlickrBrowser', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.
@@ -26,11 +28,11 @@ YUI.add('FlickrBrowser', function(Y) {
          * @param ac {Object} The action context that provides access
          *        to the Mojito API.
          */
-        index: function(ac) {
+        index: function (ac) {
             ac.composite.done();
         }
 
     };
 
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito-composite-addon']});

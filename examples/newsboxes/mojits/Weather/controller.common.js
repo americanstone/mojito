@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -9,17 +9,20 @@
 /*global YUI*/
 
 
-YUI.add('WeatherController', function(Y, NAME) {
+YUI.add('weather', function(Y, NAME) {
 
-    Y.mojito.controllers[NAME] = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         index: function(ac) {
             var location = 'san francisco, california';
 
-            ac.models.YqlWeatherModel.fetch(location, function(error, response) {
+            ac.models.get('yqlweather').fetch(location, function(error, response) {
                 return ac.done(response);
             });
         }
     };
 
-}, '0.0.1', {requires: ['YqlWeatherModel']});
+}, '0.0.1', {requires: [
+    'mojito',
+    'mojito-models-addon',
+    'yqlweather-model']});

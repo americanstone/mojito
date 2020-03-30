@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('LazyPantsBinderHello', function(Y, NAME) {
+YUI.add('lazypants-binder-hello', function(Y, NAME) {
 
 /**
- * The LazyPantsBinderHello module.
+ * The lazypants-binder-hello module.
  *
- * @module LazyPantsBinderHello
+ * @module lazypants-binder-hello
  */
 
     /**

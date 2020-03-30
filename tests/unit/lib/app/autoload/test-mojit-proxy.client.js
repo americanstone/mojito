@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -42,6 +42,11 @@ YUI({useBrowserConsole: true}).use(
                     },
                     context: {
                         'affinity': 'client'
+                    },
+                    pageData: {
+                        toJSON: function () {
+                            return {color: 'orange'};
+                        }
                     }
                 };
                 this.mojitProxy = new Y.mojito.MojitProxy(this.mojitProxyConfig);
@@ -99,7 +104,10 @@ YUI({useBrowserConsole: true}).use(
                     args: [Y.Mock.Value.Object, Y.Mock.Value.Object, Y.Mock.Value.String, Y.Mock.Value.Function],
                     run: function (mp, data, view, cb) {
                         Y.Assert.areEqual(mojitProxy, mp);
+                        Y.Assert.isObject(data);
                         Y.Assert.areEqual('testName', data.name);
+                        Y.Assert.isObject(data.page);
+                        Y.Assert.areEqual('orange', data.page.color);
                         Y.Assert.areEqual('index', view);
                         Y.Assert.isFunction(cb);
                     }
@@ -123,7 +131,6 @@ YUI({useBrowserConsole: true}).use(
                     run: function (command, id, cb) {
                         Y.Assert.areEqual(mojitProxyConfig.base, command.instance.base, 'instance base does not match');
                         Y.Assert.areEqual(mojitProxyConfig.type, command.instance.type, 'instance type does not match');
-                        Y.Assert.areEqual(mojitProxyConfig.instanceId, command.instance.guid, 'instance guid does not match');
                         Y.Assert.areEqual(mojitProxyConfig.instanceId, command.instance.instanceId, 'instance id does not match');
                         Y.Assert.areEqual('index', command.action, 'incorrect action');
                         Y.Assert.isObject(command.params.body, 'body params should be an object');
@@ -160,6 +167,34 @@ YUI({useBrowserConsole: true}).use(
                             testKey: 'testVal'
                         }
                     },
+                    rpc: true
+                });
+                Y.Mock.verify(mojitProxy._client);
+            },
+
+            "test invoke with tunnelUrl option": function () {
+                var mojitProxy = this.mojitProxy,
+                    mojitProxyConfig = this.mojitProxyConfig,
+                    tunnelUrl = '/tunnel;_ylt=A0oGdV8GMC1RcBgAQNhXNyoA';
+
+                mojitProxy._client = Y.Mock();
+                mojitProxy.query = {}; // Avoid window calls
+
+                Y.Mock.expect(mojitProxy._client, {
+                    method: 'executeAction',
+                    args: [Y.Mock.Value.Object, Y.Mock.Value.String, Y.Mock.Value.Function],
+                    run: function (command, id, cb) {
+                        Y.Assert.areSame(tunnelUrl, command._tunnelUrl);
+                    }
+                });
+
+                mojitProxy.invoke('index', {
+                    params: {
+                        body: {
+                            testKey: 'testVal'
+                        }
+                    },
+                    tunnelUrl: tunnelUrl,
                     rpc: true
                 });
                 Y.Mock.verify(mojitProxy._client);

@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ClickLogBinderIndex', function(Y, NAME) {
+YUI.add('clicklog-binder-index', function(Y, NAME) {
 
 /**
- * The ClickLog index binder.
+ * The clicklog-binder-index index binder.
  * This binder looks for clicks on the clicker and uses mojitProxy.render() to
  * create UI about each click
  *
- * @module ClickLogBinderIndex
+ * @module clicklog-binder-index
  */
 
     /**

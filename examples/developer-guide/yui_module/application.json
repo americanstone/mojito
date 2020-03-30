@@ -1,5 +1,14 @@
 [{
     "settings": [ "master" ],
+    "staticHandling": {
+        "cache": false,
+        "forceUpdate": true
+    },
+    "yui": {
+        "config": {
+            "combine": false
+        }
+    },
     "specs": {
         "notepad": {
             "type": "HTMLFrameMojit",

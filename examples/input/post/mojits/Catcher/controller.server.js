@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('Catcher', function(Y) {
-    
-    Y.mojito.controller = {
+YUI.add('Catcher', function(Y, NAME) {
+
+    Y.namespace('mojito.controllers')[NAME] = {
         
         index: function(ac) {
             var name = ac.params.body('name'),
@@ -20,4 +20,4 @@ YUI.add('Catcher', function(Y) {
         
     };
         
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito', 'mojito-params-addon']});

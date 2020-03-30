@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ColoredChild', function(Y) {
+YUI.add('ColoredChild', function(Y, NAME) {
 
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         index: function(ac) {
 //            ac.assets.addCss('./style.css');
@@ -25,4 +25,4 @@ YUI.add('ColoredChild', function(Y) {
 
     };
 
-}, '0.0.1', {requires: ['mojito']});
+}, '0.0.1', {requires: ['mojito', 'mojito-params-addon', 'mojito-config-addon', 'mojito-assets-addon']});

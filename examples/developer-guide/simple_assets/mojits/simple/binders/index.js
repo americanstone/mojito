@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('simpleBinderIndex', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('simple-binder-index', function(Y, NAME) {
 
 /**
- * The simpleBinderIndex module.
+ * The simple-binder-index module.
  *
- * @module simpleBinderIndex
+ * @module simple-binder-index
  */
 
     /**

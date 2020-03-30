@@ -1,5 +1,3 @@
-
-
 ====================
 Additional Resources
 ====================
@@ -8,62 +6,72 @@ The following sections provide supplementary material about Mojito:
 
 - :ref:`additional_resources-presentations`
 - :ref:`additional_resources-screencasts`
-- `Community`_
-- `Publications`_
+- :ref:`additional_resources-community`
+- :ref:`res_community-pubs`
+- :ref:`additional_resources-archived_docs`
 
 
 .. _additional_resources-presentations:
 
 Presentations/Slidecasts
-########################
+========================
 
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
 | Title                                                  | Topics Covered                                         | Description                                            | Presenter            |
 +========================================================+========================================================+========================================================+======================+
 | `Mojito: Tale of Two Runtimes                          | basic architecture of Mojito, mojits, MVC in           | Provides a quick overview of Mojito and its core       | Matt Taylor          |
-| <http://www.slideshare.net/rhyolight/mojito-           | Mojito, ActionContext object, addons, binders,         | components.                                            |                      |
-| sl-2011>`_                                             | client/server execution                                |                                                        |                      |
+| <http://www.infoq.com/presentations/Mojito-A-Tale-of-  | Mojito, ActionContext object, addons, binders,         | components.                                            |                      |
+| Two-Runtimes>`_                                        | client/server execution                                |                                                        |                      |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
 | `JS Conf 2012 - Bruno Fernandez-Ruiz                   | device connectivity, network latency, progressive      | Discusses how Mojito can solve the problem of serving  | Bruno Fernandez-Ruiz |
 | <http://blip.tv/file/6125446>`_                        | enhancement, JavaScript on client/server, YUI3,        | content to different devices, handle connectivity      |                      |
 |                                                        | client/server runtimes, Mojito MVC, ActionContext API, | issues, reduce code duplication, and                   |                      |
 |                                                        | Mojito library, mojits, binders                        | enables progressive enhancement.                       |                      |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
-| `Your Stuff Runs on Both Sides                         | See above.                                             | The slides that accompany the talk given by            | Bruno Fernandez-Ruiz |
-| <http://olympum.github.com/decks/2012-your-stuff-runs  |                                                        | Bruno Fernandez-Ruiz at JS Conf 2012. See              |                      |
+| `Your Stuff Runs on Both Sides                         | See the topics covered above for **JS Conf 2012 -      | The slides that accompany the talk given by            | Bruno Fernandez-Ruiz |
+| <http://olympum.github.com/decks/2012-your-stuff-runs  | Bruno Fernandez-Ruiz**.                                | Bruno Fernandez-Ruiz at JS Conf 2012. See              |                      |
 | -on-both-sides>`_                                      |                                                        | **JS Conf 2012 - Bruno Fernandez-Ruiz** above to       |                      |
 |                                                        |                                                        | see the presentation.                                  |                      |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
+| `Caridy Patiño: Mojito for YUI Developers <http://www. | Mojito, mojits, Mojito CLI/store/core/server/client,   | In this YUIConf 2012 presentation, Mojito engineer     | Caridy Patiño        |
+| youtube.com/watch?feature=player_embedded&v=e-wspy6Dic | extending Mojito, context configurations, Node.js,     | Caridy Patiño discusses how YUI developers can use     |                      |
+| E>`_                                                   | YUI, YUI apps, YUI seed, server/client runtime         | Mojito to build both traditional Web and mobile        |                      |
+|                                                        | workflow, affinities, selectors                        | applications. He also explains how Mojito is able to   |                      |
+|                                                        |                                                        | build at scale using the YUI library and YUI tool      |                      | 
+|                                                        |                                                        | chains.                                                |                      |
++--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
+| `YUIConf2012: Mojito for YUI Developers <http://www.sl | See the topics covered above for **Caridy Patiño:      | The slides that accompany the talk given by Caridy     | Caridy Patiño        |
+| ideshare.net/caridy/yuiconf2012-mojito-for-yui-develop | Mojito for YUI Developers**.                           | Patiño at YUIConf 2012. See the above presentation     |                      |
+| ers>`_                                                 |                                                        | **Caridy Patiño: Mojito for YUI Developers** to        |                      |
+|                                                        |                                                        | view the talk.                                         |                      |
++--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+----------------------+
+
 
 .. _additional_resources-screencasts:
 
 Screencasts/Videos
-##################
+==================
 
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
 | Title                                                  | Topics Covered                                         | Description                                            | Narrator                                               |
 +========================================================+========================================================+========================================================+========================================================+
-| `Introducing Cocktails from Yahoo! <http://video.y     | Mojito, Node.js, YQL, mojits, Livestand                | Key members of the Cocktails team discuss why          | Bruno Fernandez-Ruiz, Ren Waldura, Dirk Koehler,       |
-| ahoo.com/yahoonet-24189541/yodel-24697328              |                                                        | Cocktails was created and how it can help              | Daryl Low                                              |
-| /introducing-cocktails-from-yahoo-27127762.html>`_     |                                                        | developers.                                            |                                                        |
+| `Introducing Cocktails from Yahoo! <http://www.vidjin. | Mojito, Node.js, YQL, mojits, Livestand                | Key members of the Cocktails team discuss why          | Bruno Fernandez-Ruiz, Ren Waldura, Dirk Koehler,       |
+| com/introducing-cocktails-from-yahoo.html>`_           |                                                        | Cocktails was created and how it can help              | Daryl Low                                              |
+|                                                        |                                                        | developers.                                            |                                                        |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
-| `Yahoo!'s Mojito and Yahoo!'s Manhattan Demo <http     | Mojito, progressive                                    | Matt Taylor shows you how to deploy a Mojito           | Matt Taylor                                            |
-| ://video.yahoo.com/yahoonet-24189541/yodel-2469732     | enhancement                                            | application locally, to the cloud, and to a mobile     |                                                        |
-| 8/cocktails-in-action-27127763.html>`_                 |                                                        | device.                                                |                                                        |
-+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
-| `Expanding Yahoo! Axis Across 3 Screens <http://www.yo | Axis, Cocktails, YUI, Mojito, Shaker, Node.js,         | The talk covers the Mojito-based implementation of     | Caridy Patino                                          |
+| `Expanding Yahoo! Axis Across 3 Screens <http://www.yo | Axis, Cocktails, YUI, Mojito, Shaker, Node.js,         | The talk covers the Mojito-based implementation of     | Caridy Patiño                                          |
 | utube.com/watch?v=oNki-D0lCsM&list=UUTHcgWOTU6gPje1g_U | Express, HTML5, optimization, adaptation, multiple     | Axis, the "Reuse-Reduce-Replace" software philosophy,  |                                                        |
 | 29tfQ&index=1&feature=plcp>`_                          | runtimes, application context, device connectivity     | and the notions of optimization and adaptation.        |                                                        |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
-| `YUI Open Hours: Yahoo! Axis: Mojito <http://www.youtu | Mojito, YUI plugins,  code reuse,                      | Yahoo! engineers Caridy Patiño and Eugene Kashida      | Caridy Patino, Eugene Kashida                          |
+| `YUI Open Hours: Yahoo! Axis: Mojito <http://www.youtu | Mojito, YUI plugins,  code reuse,                      | Yahoo engineers Caridy Patiño and Eugene Kashida       | Caridy Patiño, Eugene Kashida                          |
 | be.com/watch?v=vIvFbJo1Fj8&list=UUTHcgWOTU6gPje1g_U29t | Y.CL (communication layer)                             | discuss what Y! Axis is and the architecture decisions |                                                        |
 | fQ&index=5&feature=plc>`_                              |                                                        | that were made, such as hybrid vs native vs web.       |                                                        |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
-| `YUI Open Hours: Yahoo! Axis Part 2: Mojito <http://ww | Mojito, app/routing/context configurations, models,    | Yahoo! engineer Caridy Patiño discusses how Y! Axis    | Caridy Patino                                          |
+| `YUI Open Hours: Yahoo! Axis Part 2: Mojito <http://ww | Mojito, app/routing/context configurations, models,    | Yahoo! engineer Caridy Patiño discusses how Y! Axis    | Caridy Patiño                                          |
 | w.youtube.com/watch?v=1T5KMozs6Sc&list=UUTHcgWOTU6gPj  | binders, dimensions                                    | uses some of the advanced configuration features of    |                                                        |
 | e1g_U29tfQ&index=4&feature=plcp>`_                     |                                                        | Mojito.                                                |                                                        |
 +--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+--------------------------------------------------------+
-| `YUI Open Hours: Mojito <http://www.youtube.com/watch? | Mojito, YUI, YQL, mojits, assets, Shaker, affinities,  | Yahoo! engineers Fabian Frank and Diego Ferreiro show  | Fabian Frank, Diego Ferreiro                           |
+| `YUI Open Hours: Mojito <http://www.youtube.com/watch? | Mojito, YUI, YQL, mojits, assets, Shaker, affinities,  | Yahoo engineers Fabian Frank and Diego Ferreiro show   | Fabian Frank, Diego Ferreiro                           |
 | v=Odn3uXahSfs&list=UUTHcgWOTU6gPje1g_U29tfQ&index=2    | app/routing configuration, deploying app to client,    | how to get started using Mojito and create a basic     |                                                        |
 | &feature=plcp>`_                                       | ActionContext object, mojitProxy object, binders,      | Mojito app.                                            |                                                        |
 |                                                        | testing, JSLint, creating documentation                |                                                        |                                                        |
@@ -72,29 +80,38 @@ Screencasts/Videos
 
 
 
+
+.. _additional_resources-community:
+
 Community
-#########
+=========
+
+.. _res_community-forums:
 
 Developer Forums
-================
+----------------
 
-`YDN: Mojito Forum <http://developer.yahoo.com/forum/Yahoo-Mojito/>`_
+`YDN: Mojito Forum <https://developer.yahoo.com/forum/Yahoo-Mojito/>`_
+
+.. _res_community-twitter:
 
 Twitter
-=======
+-------
 
 - `@ydn <https://twitter.com/#!/ydn>`_
 - `@rw0 <https://twitter.com/#!/rw0>`_
 - `@olympum <https://twitter.com/#!/olympum>`_
 - `@add0n <https://twitter.com/#!/add0n>`_
 
-
+.. _res_community-pubs:
 
 Publications
-############
+------------
+
+.. _res_community_pubs-articles:
 
 Articles
-========
+########
 
 .. raw:: html
 	
@@ -173,7 +190,7 @@ Articles
 		  <td><a class="ulink" href="http://www.wired.com/wiredenterprise/2012/04/yahoo-open-sources-mojito/" target="_top">Yahoo Open Sources Its Apple App Store Killer</a></td>
 		  <td><a class="ulink" href="http://www.wired.com" target="_top">Wired</a></td>
 		  <td>2012-04-02</td>
-		  <td><a href="http://www.wired.com/cloudline/members/cademetz/">Cade Metz</a></td>
+		  <td><a href="http://www.wired.com/wiredenterprise/author/cade_metz">Cade Metz</a></td>
 		</tr>		  
 	    <tr>
 	      <td><a class="ulink" href="http://cnet.co/FPVLPT" target="_top">Why Ambitious Developers Need More Than Just HTML5</a></td>
@@ -221,17 +238,28 @@ Articles
 		  <td><a class="ulink" href="http://www.wired.com/wiredenterprise/2011/11/yahoos-manhattan/" target="_top">Yahoo’s ‘Manhattan’ To Rescue Web From the iPad</a></td>
 		  <td><a class="ulink" href="http://www.wired.com" target="_top">Wired</a></td>
 		  <td>2011-11-02</td>
-		  <td><a href="http://www.wired.com/cloudline/members/cademetz/">Cade Metz</a></td>
+		  <td><a href="http://www.wired.com/wiredenterprise/author/cade_metz">Cade Metz</a></td>
 		</tr>
 	  </tbody>
 	</table>
    </div>
 
+.. _res_community_pubs-blogs:
 
 Blogs
-=====
+#####
 
-- `Yahoo! Announces Cocktails – Shaken, Not Stirred <http://developer.yahoo.com/blogs/ydn/posts/2011/11/yahoo-announces-cocktails-%E2%80%93-shaken-not-stirred/>`_
-- `How YQL powers Cocktails, the technology behind Livestand <http://developer.yahoo.com/blogs/ydn/posts/2011/11/how-yql-powers-cocktails-the-technology-behind-livestand/>`_
+- `Yahoo Announces Cocktails – Shaken, Not Stirred <https://developer.yahoo.com/blogs/ydn/posts/2011/11/yahoo-announces-cocktails-%E2%80%93-shaken-not-stirred/>`_
+- `How YQL powers Cocktails, the technology behind Livestand <https://developer.yahoo.com/blogs/ydn/posts/2011/11/how-yql-powers-cocktails-the-technology-behind-livestand/>`_
 
+.. _additional_resources-archived_docs:
 
+Archived Documentation
+======================
+
+- Mojito v0.3 (`General <https://developer.yahoo.com/cocktails/mojito/v0.3/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.3/docs/>`_)
+- Mojito v0.4 (`General <https://developer.yahoo.com/cocktails/mojito/v0.4/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.4/api/>`_)
+- Mojito v0.5 (`General <https://developer.yahoo.com/cocktails/mojito/v0.5/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.5/api/>`_)
+- Mojito v0.6 (`General <https://developer.yahoo.com/cocktails/mojito/v0.6/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.6/api/>`_)
+- Mojito v0.7 (`General <https://developer.yahoo.com/cocktails/mojito/v0.7/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.7/api/>`_)
+- Mojito v0.8 (`General <https://developer.yahoo.com/cocktails/mojito/v0.8/docs/>`_\/`API <https://developer.yahoo.com/cocktails/mojito/v0.8/api/>`_)

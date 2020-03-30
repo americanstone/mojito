@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -24,6 +24,10 @@ YUI().use('mojito-config-addon', 'test', function(Y) {
             instance: {
                 config: configs,
                 definition: definitions
+            }
+        }, {
+            page: {
+                appConfig: 'page app config'
             }
         });
     }
@@ -110,6 +114,12 @@ YUI().use('mojito-config-addon', 'test', function(Y) {
             A.isNotUndefined(ac.getDefinition('d1'));
             A.isNotUndefined(ac.getDefinition('d2'));
             A.isNotUndefined(ac.getDefinition('d3'));
+        },
+
+        'test getAppConfig()': function() {
+            var ac = create();
+
+            A.areSame('page app config', ac.getAppConfig(), 'the app config should come from adapter.page.appConfig');
         }
 
     }));

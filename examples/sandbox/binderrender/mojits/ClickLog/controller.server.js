@@ -1,23 +1,23 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ClickLog', function(Y) {
+YUI.add('clicklog', function(Y, NAME) {
 
 /**
  * The ClickLog mojit which just shows running log of user clicks.
  * This mojit primarily exists to demonstrate rendering of views
  * in the binder.
  *
- * @module ClickLog
+ * @module clicklog
  */
 
     /**
      * @class Controller
      */
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * This "index" action generates the initial view.

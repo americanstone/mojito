@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('RedChildModel', function(Y) {
+YUI.add('redchild-model', function(Y, NAME) {
 
 /**
- * The RedChildModel module.
+ * The redchild-model module.
  *
- * @module RedChildModel
+ * @module redchild-model
  */
 
     /**
@@ -36,4 +36,4 @@ YUI.add('RedChildModel', function(Y) {
 
     };
 
-}, '0.0.1', {requires: []});
+}, '0.0.1', {requires: ['mojito']});

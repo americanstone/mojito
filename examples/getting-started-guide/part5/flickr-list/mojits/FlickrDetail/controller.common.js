@@ -1,31 +1,33 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('FlickrDetail', function(Y) {
+YUI.add('flickrdetail', function (Y, NAME) {
 
-    Y.mojito.controller = {
+    "use strict";
 
-        index: function(ac) {
+    Y.namespace('mojito.controllers')[NAME] = {
+
+        index: function (ac) {
 
             var image = ac.params.merged('image') || '0';
 
             // a little paranoia about inputs
             if (!image.match(/^\d+$/)) {
                 ac.assets.addCss('./message.css');
-                ac.done({ type: 'error', message: ac.intl.lang('ERROR_BAD_IMAGE_ID') }, { view: { name:'message' } });
+                ac.done({ type: 'error', message: ac.intl.lang('ERROR_BAD_IMAGE_ID') }, { view: { name: 'message' } });
                 return;
             }
 
             if ('0' === image) {
                 ac.assets.addCss('./message.css');
-                ac.done({ type: 'info', message: ac.intl.lang('INFO_NO_IMAGE_CHOSEN') }, { view: { name:'message' } });
+                ac.done({ type: 'info', message: ac.intl.lang('INFO_NO_IMAGE_CHOSEN') }, { view: { name: 'message' } });
                 return;
             }
 
-            ac.models.flickr.getFlickrDetail(image, function(err, details) {
+            ac.models.get('flickr').getFlickrDetail(image, function(err, details) {
                 if (err) {
                     ac.error(new Error("YQL Error"));
                     return;
@@ -64,4 +66,10 @@ YUI.add('FlickrDetail', function(Y) {
 
     };
 
-}, '0.0.1', {requires: ['mojito-intl-addon', 'ModelFlickr'], lang: ['de', 'en-US']});
+}, '0.0.1', {requires: [
+    'mojito-assets-addon',
+    'mojito-params-addon',
+    'mojito-intl-addon',
+    'mojito-models-addon',
+    'flickr-model'
+], lang: ['de', 'en-US']});

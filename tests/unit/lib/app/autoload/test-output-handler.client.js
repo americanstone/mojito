@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
@@ -96,7 +96,6 @@ YUI({useBrowserConsole: true}).use(
                     method: 'attachBinders',
                     args: [Y.Mock.Value.Object, Y.Mock.Value.String, Y.Mock.Value.String],
                     run: function (binders, viewId, metaViewId) {
-                        console.log('attachBinders called');
                         Y.Assert.isObject(binders);
                         Y.Assert.isObject(binders.yui_3_5_1_2_1342738213108_12);
                         Y.Assert.areEqual(self.viewId, viewId);

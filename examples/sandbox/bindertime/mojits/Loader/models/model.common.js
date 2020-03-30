@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('LoaderModel', function(Y, NAME) {
+YUI.add('loader-model', function(Y, NAME) {
 
 /**
- * The LoaderModel module.
+ * The loader-model module.
  *
- * @module LoaderModel
+ * @module loader-model
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('LoaderModel', function(Y, NAME) {
      * @class Model
      * @constructor
      */
-    Y.mojito.models.Loader = {
+     Y.namespace('mojito.models')[NAME] = {
 
         init: function(config) {
             this.config = config;

@@ -1,5 +1,3 @@
-
-
 ==============================
 Including YUI Modules in Views
 ==============================
@@ -8,26 +6,34 @@ Including YUI Modules in Views
 
 **Difficulty Level:** Intermediate
 
-Summary
-#######
+.. _code_exs_yui_views-summary:
 
-This example shows how to include the `YUI ScrollView Module <http://developer.yahoo.com/yui/3/scrollview/>`_ in your mojit's view template.
+Summary
+=======
+
+This example shows how to include the 
+`YUI ScrollView Module <https://developer.yahoo.com/yui/3/scrollview/>`_ 
+in your view.
 
 The following topics will be covered:
 
-- embedding the YUI ScrollView Module in the view template
+- embedding the YUI ScrollView Module in the template
 - implementing a scrolling content widget
 
-Implementation Notes
-####################
+.. _code_exs_yui_views-notes:
 
-The following screenshots show you how the application appears on different devices.
+Implementation Notes
+====================
+
+The following screenshots show you how the application appears on different 
+devices.
 
 .. image:: images/scroll_view.preview.gif
-   :height: 368px
+   :height: 415px
    :width: 401px
 
-In the ``application.json`` file for this code example, the customized CSS are specified in the ``assets`` array as seen below.
+In the ``application.json`` file for this code example, the customized 
+CSS is specified in the ``assets`` array as seen below.
 
 .. code-block:: javascript
 
@@ -52,20 +58,23 @@ In the ``application.json`` file for this code example, the customized CSS are s
            }
          }
        }
+     },
+     { 
+       "settings": [ "device:iphone" ], 
+       "selector": "iphone" 
      }
    ]
 
-The mojit controller provides the photo URLs for the scrollable content widget. In the ``controller.server.js`` below, the ``photos`` array that contains the photo URLs and the text for the 
-image ``alt`` attribute is passed to the ``index`` view template.
+The mojit controller provides the photo URLs for the scrollable content widget. 
+In the ``controller.server.js`` below, the ``photos`` array that contains the 
+photo URLs and the text for the image ``alt`` attribute is passed to the 
+``index`` template.
 
 .. code-block:: javascript
 
-   YUI.add('scroll', function(Y,NAME) {
-       Y.mojito.controllers[NAME] = {
-         init: function(config) {
-           this.config = config;
-       },
-       index: function(ac) {
+   YUI.add('scroll', function (Y, NAME) {
+     Y.namespace('mojito.controllers')[NAME] = {
+       index: function (ac) {
          // Populate Template
          ac.done({
            title: 'Scroll View',
@@ -74,7 +83,7 @@ image ``alt`` attribute is passed to the ``index`` view template.
                url: 'http://farm5.static.flickr.com/4136/4802088086_c621e0b501.jpg',
                alt: 'Above The City II'
              },
-             {
+             { 
                url: 'http://farm5.static.flickr.com/4114/4801461321_1373a0ef89.jpg',
                alt: 'Walls and Canyon'
              },
@@ -90,24 +99,51 @@ image ``alt`` attribute is passed to the ``index`` view template.
          });
        }
      };
-   }, '0.0.1', {requires: ['mojito']});
+   }, '0.0.1', {requires: []});
 
-In the ``index.mu.html`` below, the YUI ScrollView module is included with ``YUI.use``. To create the scrolling content widget,  you need to create a container, a header, and content frame with ``div`` tags 
-that use YUI-specific IDs and render a ScrollView object. For detailed instructions, see the `Getting Started <http://developer.yahoo.com/yui/3/scrollview/#start>`_ section on the YUI 3: ScrollView page.
+
+In the binder ``index.js`` below, the YUI ScrollView module is required
+by adding the string ``scrollview`` to the ``required`` array. To create the scrolling 
+content widget, you need to instantiate a ScrollView object by passing an object 
+containing parameters for the container (``srcNode``), an ID, dimensions, and 
+scroll behavior (``flick``) and then use the method ``render`` to attach the scroll
+view to the HTML DOM. 
+
+.. code-block:: javascript
+
+   YUI.add('scroll-binder-index', function (Y, NAME) {
+
+     Y.namespace('mojito.binders')[NAME] = {
+       init: function (mojitProxy) {
+         this.mojitProxy = mojitProxy;
+       },
+       bind: function (node) {
+         var scrollView = new Y.ScrollView({
+             id: 'scrollview',
+             srcNode: node.one('#scrollview-content'),
+             width: 320,
+             flick: {
+               minDistance:10,
+               minVelocity:0.3,
+               axis: "x"
+             }
+           });
+           scrollView.render();
+
+           // Prevent default image drag behavior
+           scrollView.get("contentBox").delegate("mousedown", function(e) {
+             e.preventDefault();
+           }, "img");
+         }
+       };
+     }, '0.0.1', {requires: ['scrollview']});
+
+The container (value for ``srcNode``) for the scroll view must be an existing HTML
+node, so the template ``index.hb.html`` must have a ``div`` element with the
+``id`` attribute of ``scrollview-content`` as shown below.
 
 .. code-block:: html
 
-   <style>
-     /* Avoid resource latency for these, since they
-      hide unenhanced content
-     */
-     .yui3-js-enabled .yui3-scrollview-loading {
-       visibility:hidden;
-     }
-     #additional-content {
-       display:none;
-     }
-   </style>
    <div id="{{mojit_view_id}}" class="mojit">
      <div id="scrollview-container">
        <div id="scrollview-header">
@@ -122,41 +158,26 @@ that use YUI-specific IDs and render a ScrollView object. For detailed instructi
        </div>
      </div>
    </div>
-   <script type="text/javascript" charset="utf-8">
-     YUI().use('scrollview', function(Y,NAME) {
-       var scrollView = new Y.ScrollView({
-         id: 'scrollview',
-         srcNode: '#scrollview-content',
-         width: 320,
-         flick: {
-           minDistance:10,
-           minVelocity:0.3,
-           axis: "x"
-         }
-       });
-       scrollView.render();
-       // Prevent default image drag behavior
-       scrollView.get("contentBox").delegate("mousedown", function(e) {
-        e.preventDefault();
-       }, "img");});
-   </script>
+
+For detailed instructions about YUI ScrollView, see 
+`ScrollView: Getting Started <https://developer.yahoo.com/yui/3/scrollview/#start>`_.
+
+.. _code_exs_yui_views-setup:
 
 Setting Up this Example
-#######################
+=======================
 
 To set up and run ``scroll_views``:
 
 #. Create your application.
 
    ``$ mojito create app scroll_views``
-
 #. Change to the application directory.
-
 #. Create your mojit.
 
    ``$ mojito create mojit scroll``
-
-#. To configure you application, replace the code in ``application.json`` with the following:
+#. To configure you application, replace the code in ``application.json`` with the 
+   following:
 
    .. code-block:: javascript
 
@@ -169,7 +190,7 @@ To set up and run ``scroll_views``:
               "config": {
                 "deploy": true,
                 "child" : {
-                "type" : "scroll"
+                  "type" : "scroll"
                 },
                 "assets": {
                   "top": {
@@ -181,36 +202,69 @@ To set up and run ``scroll_views``:
               }
             }
           }
+        },
+        { 
+          "settings": [ "device:iphone" ], 
+          "selector": "iphone"
         }
       ]
 
-#. To configure routing to call the ``index`` action from the instance of the ``HTMLFrameMojit`` when an HTTP GET call is made on the route path, create the file ``routes.json`` with the following:
+#. Update your ``app.js`` with the following to use Mojito's middleware, configure routing and the port, and 
+   have your application listen for requests:
 
    .. code-block:: javascript
 
-      [
-        {
-          "settings": [ "master" ],
-          "_index": {
-            "verbs": ["get"],
-            "path": "/",
-            "call": "frame.index"
-          }
-        }
-      ]
+      'use strict';
+
+      var debug = require('debug')('app'),
+          express = require('express'),
+          libmojito = require('mojito'),
+          app;
+
+          app = express();
+          app.set('port', process.env.PORT || 8666);
+          libmojito.extend(app);
+
+          app.use(libmojito.middleware());
+
+          app.get('/status', function (req, res) {
+              res.send('200 OK');
+          });
+          app.get('/', libmojito.dispatch('frame.index'));
+
+          app.listen(app.get('port'), function () {
+              debug('Server listening on port ' + app.get('port') + ' ' +
+              'in ' + app.get('env') + ' mode');
+          });
+          module.exports = app;
+
+#. Confirm that your ``package.json`` has the correct dependencies as show below. If not,
+   update ``package.json``.
+
+   .. code-block:: javascript
+
+      "dependencies": {
+          "debug": "*",
+           "mojito": "~0.9.0"
+      },
+      "devDependencies": {
+          "mojito-cli": ">= 0.2.0"
+      },
+
+#. From the application directory, install the application dependencies:
+
+   ``$ npm install``
 
 #. Change to ``mojits/scroll``.
-
-#. To have the controller send image data to the view template for the scrolling widget, replace the code in ``controller.server.js`` with the following:
+#. To have the controller send image data to the template for the scrolling 
+   widget, replace the code in ``controller.server.js`` with the following:
 
    .. code-block:: javascript
 
-      YUI.add('scroll', function(Y,NAME) {
-        Y.mojito.controllers[NAME] = {
-          init: function(config) {
-            this.config = config;
-          },
-          index: function(ac) {
+      YUI.add('scroll', function (Y, NAME) {
+
+        Y.namespace('mojito.controllers')[NAME] = {
+          index: function (ac) {
             // Populate Template
             ac.done({
               title: 'Scroll View',
@@ -237,14 +291,45 @@ To set up and run ``scroll_views``:
         };
       }, '0.0.1', {requires: []});
 
-#. To modify the ``index`` view template, replace the code in ``views/index.mu.html`` with the following:
+#. To instantiate a ScrollView and have it rendered in the DOM, replace the
+    code in ``binders/index.js`` with the following:
+
+   .. code-block:: javascript
+
+      YUI.add('scroll-binder-index', function (Y, NAME) {
+
+        Y.namespace('mojito.binders')[NAME] = {
+          init: function (mojitProxy) {
+            this.mojitProxy = mojitProxy;
+          },
+          bind: function (node) {
+            var scrollView = new Y.ScrollView({
+                id: 'scrollview',
+                srcNode: node.one('#scrollview-content'),
+                width: 320,
+                flick: {
+                    minDistance:10,
+                    minVelocity:0.3,
+                    axis: "x"
+                }
+            });
+            scrollView.render();
+
+            // Prevent default image drag behavior
+            scrollView.get("contentBox").delegate("mousedown", function(e) {
+                e.preventDefault();
+            }, "img");
+          }
+        };
+      }, '0.0.1', {requires: ['scrollview']});
+
+#. To modify the ``index`` template, replace the code in ``views/index.hb.html`` with the 
+   following:
 
    .. code-block:: html
 
       <style>
-        /* Avoid resource latency for these, since they
-         hide unenhanced content
-        */
+        /* Avoid resource latency for these, since they hide unenhanced content */
         .yui3-js-enabled .yui3-scrollview-loading {
           visibility:hidden;
         }
@@ -260,32 +345,15 @@ To set up and run ``scroll_views``:
           <div id="scrollview-content" class="yui3-scrollview-loading">
             <ul>
             {{#photos}}
-              <li><img src="{{url}}" alt="{{alt}}"></li>
+                <li><img src="{{url}}" alt="{{alt}}"></li>
             {{/photos}}
             </ul>
           </div>
         </div>
       </div>
-      <script type="text/javascript" charset="utf-8">
-        YUI().use('scrollview', function(Y,NAME) {
-          var scrollView = new Y.ScrollView({
-            id: 'scrollview',
-            srcNode: '#scrollview-content',
-            width: 320,
-            flick: {
-              minDistance:10,
-              minVelocity:0.3,
-              axis: "x"
-            }
-          });
-          scrollView.render();
-          // Prevent default image drag behavior
-          scrollView.get("contentBox").delegate("mousedown", function(e) {
-           e.preventDefault();
-          }, "img");});
-      </script>
 
-#. To add CSS for the ``index`` view template, create the file ``assets/index.css`` with the following:
+#. To add CSS for the ``index`` template, replace the contents of ``assets/index.css`` 
+   with the following:
 
    .. code-block:: css
 
@@ -359,16 +427,16 @@ To set up and run ``scroll_views``:
 
 #. From the application directory, run the server.
 
-   ``$ mojito start``
-
+   ``$ node app.js``
 #. To view your application, go to the URL:
 
    http://localhost:8666
 
+.. _code_exs_yui_views-src:
+
 Source Code
-###########
+===========
 
-- `Index View Template <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/scroll_views/mojits/scroll/views/index.mu.html>`_
+- `Index Template <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/scroll_views/mojits/scroll/views/index.hb.html>`_
 - `Scroll Views Application <http://github.com/yahoo/mojito/tree/master/examples/developer-guide/scroll_views/>`_
-
 

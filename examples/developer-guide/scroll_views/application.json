@@ -1,6 +1,10 @@
 [
     {
         "settings": [ "master" ],
+        "staticHandling": {
+            "cache": false,
+            "forceUpdate": true
+        },
         "specs": {
             "frame" : {
                 "type" : "HTMLFrameMojit",
@@ -9,7 +13,7 @@
                     "child" : {
                         "type" : "scroll"
                     },
-                    "assets": { 
+                    "assets": {
                         "top": {
                             "css":[
                                 "/static/scroll/assets/index.css"
@@ -19,6 +23,5 @@
                 }
             }
         }
-    },
-    { "settings": [ "device:iphone" ], "selector": "iphone" }
+    }
 ]

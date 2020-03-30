@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('deviceBinderIndex', function(Y, NAME) {
+/*jslint anon:true, sloppy:true, nomen:true*/
+
+YUI.add('device-binder-index', function (Y, NAME) {
 
 /**
- * The deviceBinderIndex module.
+ * The device-binder-index module.
  *
- * @module deviceBinderIndex
+ * @module device-binder-index
  */
 
     /**
@@ -27,7 +29,7 @@ YUI.add('deviceBinderIndex', function(Y, NAME) {
          * Binder initialization method, invoked after all binders on the page
          * have been constructed.
          */
-        init: function(mojitProxy) {
+        init: function (mojitProxy) {
             this.mojitProxy = mojitProxy;
         },
 
@@ -37,7 +39,7 @@ YUI.add('deviceBinderIndex', function(Y, NAME) {
          *
          * @param node {Node} The DOM node to which this mojit is attached.
          */
-        bind: function(node) {
+        bind: function (node) {
             this.node = node;
         }
 

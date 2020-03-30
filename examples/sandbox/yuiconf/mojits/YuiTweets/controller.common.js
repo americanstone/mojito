@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('YuiTweets', function(Y) {
+YUI.add('yuitweets', function(Y, NAME) {
 
 /**
- * The YuiTweets module.
+ * The yuitweets module.
  *
- * @module YuiTweets
+ * @module yuitweets
  */
 
     /**
@@ -18,7 +18,7 @@ YUI.add('YuiTweets', function(Y) {
      * @class Controller
      * @constructor
      */
-    Y.mojito.controller = {
+    Y.namespace('mojito.controllers')[NAME] = {
 
         /**
          * Method corresponding to the 'index' action.
@@ -27,11 +27,12 @@ YUI.add('YuiTweets', function(Y) {
          *        to the Mojito API.
          */
         index: function(ac) {
-            ac.models.yuiTweets.getTweets(function(err, yuiTweets) {
+            ac.models.get('yuitweets').getTweets(function(err, yuiTweets) {
                 ac.done({tweets: yuiTweets});
             });
         }
-
     };
-
-}, '0.0.1', {requires: ['mojito']});
+}, '0.0.1', {requires: [
+    'mojito',
+    'mojito-models-addon'
+]});

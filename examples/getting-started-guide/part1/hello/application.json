@@ -1,10 +1,9 @@
 [
     {
         "settings": [ "master" ],
-
         "specs": {
             "hello": {
-                "type": "HelloMojit"
+                "type": "Hello"
             }
         }
     }

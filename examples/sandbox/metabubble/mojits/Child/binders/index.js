@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011-2012, Yahoo! Inc.  All rights reserved.
+ * Copyright (c) 2011-2013, Yahoo! Inc.  All rights reserved.
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
 
-YUI.add('ChildBinderIndex', function(Y, NAME) {
+YUI.add('child-binder-index', function(Y, NAME) {
 
 /**
- * The ChildBinderIndex module.
+ * The child-binder-index module.
  *
- * @module ChildBinderIndex
+ * @module child-binder-index
  */
 
     /**
